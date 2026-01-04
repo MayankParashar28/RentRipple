@@ -9,27 +9,27 @@
         <div>
           <label for="name">Name:</label>
           <input type="text" placeholder="Name" name="listing[name]" id="name"
-            class="form-control mb-3 p-1 text-black border-1 border-zinc-900 h-[3rem] rounded-lg" required>
+            class="form-control input-glass mb-3 p-3 h-[3rem]" required>
         </div>
 
         <label for="description">Description:</label>
         <input type="text" placeholder="Description" name="listing[description]" id="description"
-          class=" form-control mb-3 h-20 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+          class="form-control input-glass mb-3 h-20 p-3" required>
 
 
 
         <label for="image">Image:</label>
         <input type="file" placeholder="Image-URL" name="listing[image]" id="image"
-          class="form-control mb-3 p-1 text-black border-1 border-zinc-900   rounded-lg" required>
+          class="form-control input-glass mb-3 p-3" required>
 
         <div class="flex text-center items-center">
           <label for="price">Price:</label>
           <input type="number" placeholder="Price" name="listing[price]" id="price"
-            class="form-control m-3 p-1 w-60 text-black border-1 border-zinc-900 h-[3rem] rounded-lg" required>
+            class="form-control input-glass m-3 p-3 w-60 h-[3rem]" required>
 
           <label for="country">Country:</label>
           <input type="text" list="countries" placeholder="Country" name="listing[country]" id="country"
-            class=" form-control m-3 p-1 h-10 text-black border-1 border-zinc-900 h-[3rem] rounded-lg" required>
+            class="form-control input-glass m-3 p-3 h-[3rem]" required>
           <datalist id="countries">
             <option value="Afghanistan">
             <option value="Albania">
@@ -234,7 +234,7 @@
 
         <label for="location">Location:</label>
         <input type="text" list="tourist-locations" placeholder="Location" name="listing[location]" id="location"
-          class="form-control mb-3 p-1 text-black border-1 border-zinc-900 h-[3rem] rounded-lg" required>
+          class="form-control input-glass mb-3 p-3 h-[3rem]" required>
         <datalist id="tourist-locations">
           <option value="Eiffel Tower, Paris">
           <option value="Great Wall of China, China">
@@ -291,7 +291,8 @@
 
         <!-- Property Type -->
         <label for="type">Property Type:</label>
-        <select name="listing[type]" id="type" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+        <select name="listing[type]" id="type"
+          class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           <option value="Apartment">Apartment</option>
           <option value="House">House</option>
           <option value="Villa">Villa</option>
@@ -303,15 +304,18 @@
         <div class="flex gap-4 mb-3">
           <div>
             <label for="guests">Guests:</label>
-            <input type="number" name="listing[guests]" id="guests" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+            <input type="number" name="listing[guests]" id="guests"
+              class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           </div>
           <div>
             <label for="bedrooms">Bedrooms:</label>
-            <input type="number" name="listing[bedrooms]" id="bedrooms" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+            <input type="number" name="listing[bedrooms]" id="bedrooms"
+              class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           </div>
           <div>
             <label for="bathrooms">Bathrooms:</label>
-            <input type="number" name="listing[bathrooms]" id="bathrooms" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+            <input type="number" name="listing[bathrooms]" id="bathrooms"
+              class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           </div>
         </div>
 
@@ -319,11 +323,13 @@
         <div class="flex gap-4 mb-3">
           <div>
             <label for="checkin">Check-in Time:</label>
-            <input type="time" name="listing[checkin]" id="checkin" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+            <input type="time" name="listing[checkin]" id="checkin"
+              class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           </div>
           <div>
             <label for="checkout">Check-out Time:</label>
-            <input type="time" name="listing[checkout]" id="checkout" class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
+            <input type="time" name="listing[checkout]" id="checkout"
+              class="form-control mb-3 p-1 text-black border-1 border-zinc-900 rounded-lg" required>
           </div>
         </div>
 
@@ -338,15 +344,15 @@
           <label><input type="checkbox" name="listing[amenities][]" value="Pet Friendly"> Pet Friendly</label>
         </div>
 
-      
+
 
         <!-- Rules -->
         <label for="rules">House Rules / Notes:</label>
         <textarea name="listing[rules]" id="rules" placeholder="e.g., No smoking, No loud music after 10 PM" rows="3"
-          class="form-control mb-3 p-1 text-black border-1 border-zinc-900   rounded-lg"></textarea>
+          class="form-control input-glass mb-3 p-3"></textarea>
 
 
-        <button class="m-3 bg-gray-800 text-white p-2 rounded-md hover:bg-zinc-600 " type="submit">Create</button>
+        <button class="m-3 btn-gradient text-white p-2 rounded-md" type="submit">Create</button>
       </form>
     </div>
     <script>
@@ -371,44 +377,44 @@
       })()
     </script>
     <script>
-  const locationInput = document.getElementById('location');
-  const form = document.querySelector('form');
+      const locationInput = document.getElementById('location');
+      const form = document.querySelector('form');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    const location = locationInput.value;
-    const MAPBOX_TOKEN = '<%= process.env.MAP_TOKEN %>';
+        const location = locationInput.value;
+        const MAPBOX_TOKEN = '<%= process.env.MAP_TOKEN %>';
 
-    try {
-      const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${MAPBOX_TOKEN}`);
-      const data = await res.json();
+        try {
+          const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${MAPBOX_TOKEN}`);
+          const data = await res.json();
 
-      if (data.features && data.features.length > 0) {
-        const [lng, lat] = data.features[0].geometry.coordinates;
+          if (data.features && data.features.length > 0) {
+            const [lng, lat] = data.features[0].geometry.coordinates;
 
-        const lngInput = document.createElement('input');
-        lngInput.type = 'hidden';
-        lngInput.name = 'listing[geometry][coordinates][]';
-        lngInput.value = lng;
+            const lngInput = document.createElement('input');
+            lngInput.type = 'hidden';
+            lngInput.name = 'listing[geometry][coordinates][]';
+            lngInput.value = lng;
 
-        const latInput = document.createElement('input');
-        latInput.type = 'hidden';
-        latInput.name = 'listing[geometry][coordinates][]';
-        latInput.value = lat;
+            const latInput = document.createElement('input');
+            latInput.type = 'hidden';
+            latInput.name = 'listing[geometry][coordinates][]';
+            latInput.value = lat;
 
-        form.appendChild(lngInput);
-        form.appendChild(latInput);
-      }
+            form.appendChild(lngInput);
+            form.appendChild(latInput);
+          }
 
-      form.submit();
-    } catch (err) {
-      alert('Failed to fetch coordinates. Please check the location.');
-      console.error(err);
-    }
-  });
+          form.submit();
+        } catch (err) {
+          alert('Failed to fetch coordinates. Please check the location.');
+          console.error(err);
+        }
+      });
     </script>
-    
+
   </body>
 
   </html>

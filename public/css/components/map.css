@@ -1,8 +1,10 @@
-/* Map */
+/* --- Map Styles --- */
 #map {
     height: 400px;
     width: 100%;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+    max-width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    box-shadow: var(--shadow-glass);
 }

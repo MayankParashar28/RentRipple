@@ -1,4 +1,4 @@
-/* Forms */
+/* --- Form Styles --- */
 .form-label {
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -6,18 +6,43 @@
     display: block;
 }
 
-.form-control {
+.input-glass {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: var(--radius-sm);
-    font-family: inherit;
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
     font-size: 1rem;
     transition: var(--transition);
+    color: var(--text-primary);
 }
 
-.form-control:focus {
-    border-color: var(--primary-color);
+.input-glass:focus {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(250, 45, 85, 0.1);
+}
+
+/* Button Styles */
+.btn-gradient {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-soft);
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    opacity: 0.95;
 }

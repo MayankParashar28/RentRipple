@@ -17,10 +17,7 @@ const passport = require('passport');
 const multer = require('multer')
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-const { isLoggedIn } = require('./middleware');
-const { savedRedirectUrl } = require('./middleware');
-const { isOwner } = require('./middleware');
-const { isReviewAuthor } = require('./middleware');
+const { isLoggedIn, savedRedirectUrl, isOwner, isReviewAuthor } = require('./middleware/index.js');
 const engine = require('ejs-mate');
 const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
@@ -30,14 +27,14 @@ const moment = require('moment');
 
 const port = 3000;
 
-const { cloudinary, storage } = require('./cloudConfig.js');
+const { cloudinary, storage } = require('./config/cloudConfig.js');
 const { access } = require('fs');
 const upload = multer({ storage });
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/AirBnb";
+const dbUrl = process.env.MONGO_URL;
 
 // Connect to MongoDB
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.error("Connection error:", err));
 
@@ -93,17 +90,17 @@ app.use((req, res, next) => {
 
 // Home route
 app.get("/", async (req, res) => {
-  try {
-    const topListings = await Listing.find({}).populate("reviews").limit(4);
-    const randomListings = await Listing.aggregate([{ $sample: { size: 6 } }]);
-    const guestReviews = await Review.find({}).populate("author").sort({ createdAt: -1 }).limit(6);
-    const experiences = await Experience.find({}).limit(6); // fetch experience data
+    try {
+        const topListings = await Listing.find({}).populate("reviews").limit(4);
+        const randomListings = await Listing.aggregate([{ $sample: { size: 6 } }]);
+        const guestReviews = await Review.find({}).populate("author").sort({ createdAt: -1 }).limit(6);
+        const experiences = await Experience.find({}).limit(6); // fetch experience data
 
-    res.render("listings/home", { topListings, randomListings, guestReviews, experiences });
-  } catch (error) {
-    console.error("Error loading home page:", error);
-    res.status(500).send("Internal Server Error");
-  }
+        res.render("listings/home", { topListings, randomListings, guestReviews, experiences });
+    } catch (error) {
+        console.error("Error loading home page:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 
@@ -121,7 +118,7 @@ app.get('/listings', async (req, res) => {
             listing.avgRating = listing.reviews.length ? (totalRating / listing.reviews.length).toFixed(1) : null;
         });
 
-        res.render("listings/index", { listings,mapToken });
+        res.render("listings/index", { listings, mapToken });
     } catch (error) {
         console.error("Error fetching listings:", error);
         res.status(500).send("Internal Server Error");
@@ -296,11 +293,11 @@ app.post("/listings/:id/reviews", isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
         const listing = await Listing.findById(id);
-    
+
         if (!listing) {
             return res.status(404).send('Listing not found');
         }
-    
+
         // Ensure geometry is set, if missing provide a default
         if (!listing.geometry || !listing.geometry.type) {
             listing.geometry = {
@@ -308,7 +305,7 @@ app.post("/listings/:id/reviews", isLoggedIn, async (req, res) => {
                 coordinates: [0, 0] // Default coordinates, modify based on your needs
             };
         }
-    
+
         const newReview = new Review(req.body.review);
         // Ensure the rating defaults to 0 if not provided
         newReview.rating = req.body.review.rating || 0;
@@ -316,7 +313,7 @@ app.post("/listings/:id/reviews", isLoggedIn, async (req, res) => {
         listing.reviews.push(newReview);
         await newReview.save();
         await listing.save();
-    
+
         req.flash('success', 'Listing reviewed successfully!');
         res.redirect(`/listings/${id}`);
     } catch (error) {
