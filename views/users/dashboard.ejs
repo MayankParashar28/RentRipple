@@ -1,0 +1,133 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+    <div class="max-w-7xl mx-auto px-6 py-10 font-primary">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-[#222222] mb-1">Host Dashboard</h1>
+                <p class="text-gray-500 text-sm">Manage your listings and view incoming reservations.</p>
+            </div>
+            <a href="/new"
+                class="bg-[#222222] text-white px-6 py-3 rounded-xl font-bold hover:bg-black transition-all shadow-md flex items-center gap-2">
+                <i class="fas fa-plus"></i> Create New Listing
+            </a>
+        </div>
+
+        <!-- Stats Overview (Optional Placeholder) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earnings</p>
+                <h3 class="text-2xl font-extrabold text-[#222222]">₹<%= incomingBookings.reduce((acc, b)=> acc +
+                        b.totalPrice, 0).toLocaleString('en-IN') %></h3>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Bookings</p>
+                <h3 class="text-2xl font-extrabold text-[#222222]">
+                    <%= incomingBookings.length %>
+                </h3>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Active Listings</p>
+                <h3 class="text-2xl font-extrabold text-[#222222]">
+                    <%= listings.length %>
+                </h3>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+            <!-- Left Column: Incoming Bookings -->
+            <div>
+                <h2 class="text-xl font-bold text-[#222222] mb-6 flex items-center gap-2">
+                    <i class="fas fa-inbox text-gray-400"></i> Incoming Reservations
+                </h2>
+
+                <% if(incomingBookings && incomingBookings.length> 0) { %>
+                    <div class="space-y-4">
+                        <% for(let booking of incomingBookings) { %>
+                            <div
+                                class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex gap-4">
+                                    <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden shrink-0">
+                                        <img src="<%= booking.listing.image.url %>" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-start">
+                                            <h4 class="font-bold text-[#222222] text-sm">
+                                                <%= booking.listing.name %>
+                                            </h4>
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Confirmed</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            Guest: <span class="font-semibold text-gray-700">
+                                                <%= booking.booker.username %>
+                                            </span>
+                                        </p>
+                                        <div class="flex items-center gap-3 mt-3 text-xs text-gray-600">
+                                            <span class="bg-gray-100 px-2 py-1 rounded-md">
+                                                <%= new Date(booking.checkIn).toLocaleDateString('en-US',
+                                                    {month:'short', day:'numeric'}) %> -
+                                                    <%= new Date(booking.checkOut).toLocaleDateString('en-US',
+                                                        {month:'short', day:'numeric'}) %>
+                                            </span>
+                                            <span class="font-bold">₹<%= booking.totalPrice.toLocaleString('en-IN') %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                            <p class="text-gray-400 text-sm">No bookings received yet.</p>
+                        </div>
+                        <% } %>
+            </div>
+
+            <!-- Right Column: My Listings -->
+            <div>
+                <h2 class="text-xl font-bold text-[#222222] mb-6 flex items-center gap-2">
+                    <i class="fas fa-home text-gray-400"></i> My Properties
+                </h2>
+
+                <% if(listings && listings.length> 0) { %>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <% for(let listing of listings) { %>
+                            <div
+                                class="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-black transition-colors">
+                                <div class="aspect-[4/3] bg-gray-200 relative">
+                                    <img src="<%= listing.image.url %>" class="w-full h-full object-cover">
+                                    <div
+                                        class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <a href="/<%= listing._id %>/edit"
+                                            class="bg-white text-gray-700 p-1.5 rounded-lg shadow-sm hover:bg-gray-100">
+                                            <i class="fas fa-edit text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-bold text-[#222222] text-sm truncate mb-1">
+                                        <%= listing.name %>
+                                    </h4>
+                                    <p class="text-xs text-gray-500 mb-3">
+                                        <%= listing.location %>
+                                    </p>
+                                    <a href="/<%= listing._id %>"
+                                        class="text-[10px] font-bold text-[#FA2D55] uppercase tracking-wide hover:underline">View
+                                        Listing</a>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                            <p class="text-gray-400 text-sm mb-4">You haven't posted any listings.</p>
+                            <a href="/new" class="text-[#FA2D55] text-sm font-bold hover:underline">Start
+                                Hosting</a>
+                        </div>
+                        <% } %>
+            </div>
+
+        </div>
+    </div>

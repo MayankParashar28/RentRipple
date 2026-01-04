@@ -1,0 +1,86 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+    <div class="max-w-3xl mx-auto px-6 py-16 text-center font-primary">
+
+        <!-- Animated Checkmark -->
+        <div
+            class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce-short">
+            <i class="fas fa-check text-4xl text-green-600"></i>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-extrabold text-[#222222] mb-6 tracking-tight">
+            Booking Confirmed!
+        </h1>
+        <p class="text-lg text-gray-600 mb-12 max-w-lg mx-auto leading-relaxed">
+            You're all set! We've sent the details to your email. Get ready for your trip to <span
+                class="font-bold text-[#222222]">
+                <%= booking.listing.location %>
+            </span>.
+        </p>
+
+        <!-- Booking Details Card -->
+        <div class="bg-white border boundary-gray-200 rounded-3xl shadow-sm overflow-hidden text-left mb-12">
+            <div class="flex flex-col md:flex-row">
+                <!-- Image -->
+                <div class="w-full md:w-2/5 h-48 md:h-auto bg-gray-200 relative">
+                    <img src="<%= booking.listing.image.url %>" class="w-full h-full object-cover absoulte inset-0"
+                        alt="">
+                    <div class="absolute inset-0 bg-black/10"></div>
+                </div>
+
+                <!-- Details -->
+                <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold text-[#222222] mb-1">
+                        <%= booking.listing.name %>
+                    </h3>
+                    <p class="text-gray-500 mb-6">
+                        <%= booking.listing.location %>, <%= booking.listing.country %>
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-8 text-sm">
+                        <div>
+                            <span
+                                class="block text-gray-500 uppercase text-[10px] font-bold tracking-widest">Check-In</span>
+                            <span class="font-bold text-[#222222] text-base">
+                                <%= new Date(booking.checkIn).toLocaleDateString('en-US', { weekday: 'short' ,
+                                    month: 'short' , day: 'numeric' }) %>
+                            </span>
+                        </div>
+                        <div>
+                            <span
+                                class="block text-gray-500 uppercase text-[10px] font-bold tracking-widest">Check-Out</span>
+                            <span class="font-bold text-[#222222] text-base">
+                                <%= new Date(booking.checkOut).toLocaleDateString('en-US', { weekday: 'short' ,
+                                    month: 'short' , day: 'numeric' }) %>
+                            </span>
+                        </div>
+                        <div>
+                            <span
+                                class="block text-gray-500 uppercase text-[10px] font-bold tracking-widest">Guests</span>
+                            <span class="font-bold text-[#222222] text-base">
+                                <%= booking.guests %> Guest<%= booking.guests> 1 ? 's' : '' %>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-500 uppercase text-[10px] font-bold tracking-widest">Total
+                                Cost</span>
+                            <span class="font-bold text-[#222222] text-base">₹<%=
+                                    booking.totalPrice.toLocaleString('en-IN') %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4 justify-center">
+            <a href="/"
+                class="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-[#222222] font-bold rounded-xl transition-colors">
+                Back to Home
+            </a>
+            <a href="/listings/<%= booking.listing._id %>"
+                class="px-8 py-3 border border-gray-300 hover:border-black text-[#222222] font-bold rounded-xl transition-colors">
+                View Listing
+            </a>
+        </div>
+
+    </div>

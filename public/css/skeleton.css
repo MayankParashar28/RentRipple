@@ -1,0 +1,44 @@
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite linear;
+    border-radius: 4px;
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 1 / 0.95;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-title {
+    height: 1.2rem;
+    width: 70%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-text {
+    height: 0.8rem;
+    width: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-price {
+    height: 1rem;
+    width: 30%;
+}
+
+.hidden-content {
+    display: none !important;
+}

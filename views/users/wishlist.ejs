@@ -1,0 +1,58 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+    <div class="max-w-7xl mx-auto px-6 py-10">
+        <h1 class="text-3xl font-extrabold text-[#222222] mb-8">My Wishlist</h1>
+
+        <% if (listings && listings.length> 0) { %>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <% listings.forEach(listing=> { %>
+                    <a href="/<%= listing._id %>" class="block group">
+                        <div class="border border-transparent rounded-xl hover:shadow-lg transition-all duration-300">
+                            <div class="aspect-square rounded-xl overflow-hidden relative mb-3">
+                                <img src="<%= listing.image.url %>"
+                                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+
+                                <!-- Remove from Wishlist Button -->
+                                <form action="/wishlist/<%= listing._id %>" method="POST"
+                                    class="absolute top-3 right-3 z-10">
+                                    <button type="submit"
+                                        class="bg-white/80 backdrop-blur-sm p-2 rounded-full hover:scale-110 transition-transform shadow-sm text-[#FA2D55]">
+                                        <i class="fas fa-heart text-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="px-1">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-bold text-[#222222] text-sm truncate w-full">
+                                        <%= listing.name %>
+                                    </h3>
+                                    <div class="flex items-center gap-1 text-sm font-light">
+                                        <i class="fas fa-star text-xs"></i> <span>New</span>
+                                    </div>
+                                </div>
+                                <p class="text-gray-500 text-sm">
+                                    <%= listing.location %>
+                                </p>
+                                <div class="mt-1 flex items-baseline gap-1">
+                                    <span class="font-bold text-[#222222]">₹<%= listing.price.toLocaleString("en-IN") %>
+                                            </span>
+                                    <span class="text-gray-500 text-sm font-normal">night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <% }) %>
+            </div>
+            <% } else { %>
+                <div class="text-center py-20">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="far fa-heart text-2xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#222222] mb-2">No saves yet</h3>
+                    <p class="text-gray-500 mb-8">As you search, click the heart icon to save your favorite places.</p>
+                    <a href="/"
+                        class="bg-[#222222] text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors">Start
+                        exploring</a>
+                </div>
+                <% } %>
+    </div>

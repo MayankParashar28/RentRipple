@@ -1,0 +1,133 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+    <div class="max-w-6xl mx-auto px-6 py-12 font-primary">
+        <a href="/<%= listing._id %>"
+            class="inline-flex items-center gap-2 text-sm font-bold text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-full -ml-4 mb-8 transition-colors">
+            <i class="fas fa-chevron-left text-xs"></i>
+            <span>Back to listing</span>
+        </a>
+
+        <h1 class="text-3xl font-extrabold text-[#222222] mb-12">Confirm and pay</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+
+            <!-- Booking Details (Left) -->
+            <div>
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-[#222222] mb-4">Your trip</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="font-bold text-[#222222]">Dates</p>
+                            <p class="text-gray-600">
+                                <%= new Date(checkIn).toLocaleDateString() %> – <%= new
+                                        Date(checkOut).toLocaleDateString() %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-bold text-[#222222]">Guests</p>
+                            <p class="text-gray-600">
+                                <%= guests %> guest<%= guests> 1 ? 's' : '' %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200 my-8">
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-[#222222] mb-4">Pay with</h3>
+                    <div class="border border-gray-300 rounded-xl overflow-hidden">
+                        <div class="p-4 border-b border-gray-300 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-cc-visa text-2xl text-[#1434CB]"></i>
+                                <span class="font-medium">Visa ending in 1234</span>
+                            </div>
+                            <i class="fas fa-check-circle text-black text-xl"></i>
+                        </div>
+                        <!-- Fake Inputs -->
+                        <div class="p-4 bg-gray-50 flex flex-col gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Card number</label>
+                                <input type="text" placeholder="0000 0000 0000 0000"
+                                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-1">
+                                    <label
+                                        class="block text-xs font-bold text-gray-500 uppercase mb-1">Expiration</label>
+                                    <input type="text" placeholder="MM / YY"
+                                        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">CVV</label>
+                                    <input type="text" placeholder="123"
+                                        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="/<%= listing._id %>/book" method="POST">
+                    <!-- Hidden Inputs to Pass Data -->
+                    <input type="hidden" name="booking[checkIn]" value="<%= checkIn %>">
+                    <input type="hidden" name="booking[checkOut]" value="<%= checkOut %>">
+                    <input type="hidden" name="booking[guests]" value="<%= guests %>">
+
+                    <button type="submit"
+                        class="w-full bg-[#FA2D55] text-white text-lg font-bold py-4 rounded-xl hover:bg-[#D92348] transition-all shadow-lg hover:shadow-xl transform active:scale-[0.99]">
+                        Confirm and pay
+                    </button>
+                </form>
+
+            </div>
+
+            <!-- Price Details (Right / Sticky) -->
+            <div class="lg:pl-10">
+                <div class="border border-gray-200 rounded-2xl p-6 shadow-lg sticky top-28 bg-white">
+                    <div class="flex gap-4 mb-6">
+                        <img src="<%= listing.image.url %>" class="w-28 h-24 object-cover rounded-xl bg-gray-200">
+                        <div>
+                            <p class="text-xs text-gray-500 mb-1">Entire home</p>
+                            <h4 class="font-bold text-[#222222] text-sm leading-tight mb-1">
+                                <%= listing.name %>
+                            </h4>
+                            <div class="flex items-center gap-1 text-xs text-gray-800">
+                                <i class="fas fa-star text-[10px]"></i>
+                                <span class="font-bold">New</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-200 mb-6">
+
+                    <h3 class="text-xl font-bold text-[#222222] mb-4">Price details</h3>
+                    <div class="space-y-3 text-gray-600">
+                        <div class="flex justify-between">
+                            <span>₹<%= listing.price.toLocaleString("en-IN") %> x <%= nights %> nights</span>
+                            <span>₹<%= basePrice.toLocaleString("en-IN") %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Cleaning fee</span>
+                            <span>₹1,500</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Service fee</span>
+                            <span>₹850</span>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-200 my-6">
+
+                    <div class="flex justify-between items-center text-lg font-extrabold text-[#222222]">
+                        <span>Total (INR)</span>
+                        <span>₹<%= totalPrice.toLocaleString("en-IN") %></span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
