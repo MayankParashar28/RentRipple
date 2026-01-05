@@ -13,7 +13,7 @@ const getGeocodingClient = () => {
 
 module.exports.index = async (req, res) => {
     let allListings;
-    const { search, category } = req.query;
+    const { search, category, minPrice, maxPrice } = req.query;
     const mapToken = process.env.MAP_TOKEN; // Keep mapToken for rendering
 
     let filter = {};
@@ -24,10 +24,12 @@ module.exports.index = async (req, res) => {
             "Rooms": ["Apartment", "Loft", "Brownstone", "Room"],
             "Mountains": ["Cabin", "Chalet", "Log Cabin", "Mountain"],
             "Cities": ["Penthouse", "Condo", "Loft", "Apartment", "City"],
-            "Pools": ["Villa", "Pool"],
+            "Pools": ["Villa", "Pool", "Pools"],
+            "Castle": ["Castle", "Castles"],
             "Camping": ["Treehouse", "Camping", "Tent", "Campground"],
-            "Farms": ["Farm", "Lodge", "Tractor"],
-            "Arctic": ["Arctic", "Chalet", "Igloo", "Ice"]
+            "Farms": ["Farm", "Lodge", "Tractor", "Farms"],
+            "Arctic": ["Arctic", "Chalet", "Igloo", "Ice"],
+            "Deserts": ["Desert", "Deserts"]
         };
 
         if (categoryMap[category]) {
@@ -45,13 +47,19 @@ module.exports.index = async (req, res) => {
         ];
     }
 
+    if (minPrice || maxPrice) {
+        filter.price = {};
+        if (minPrice) filter.price.$gte = Number(minPrice);
+        if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
     const listings = await Listing.find(filter)
         .select("name price image owner location type geometry reviews")
         .populate("owner", "username")
         .populate("reviews", "rating")
         .lean();
 
-    res.render("listings/index", { listings, mapToken, category });
+    res.render("listings/index", { listings, mapToken, category, minPrice, maxPrice, search });
 };
 
 module.exports.searchSuggestions = async (req, res) => {

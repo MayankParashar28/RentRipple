@@ -77,80 +77,134 @@
                             class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Deserts') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Deserts</span>
                     </div>
                 </div>
+
+                <!-- Filters Button -->
+                <button type="button" data-bs-toggle="modal" data-bs-target="#priceFilterModal"
+                    class="flex items-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:border-black hover:bg-gray-50 transition-all text-sm font-semibold ml-2">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Filters</span>
+                </button>
             </div>
-
-
         </div>
-    </div>
 
-    <!-- Skeleton Loading Grid (Airbnb Style) -->
-    <div id="skeleton-loading" class="listings-grid pt-32" data-loading="true">
-        <% for(let i=0; i<12; i++) { %>
-            <div class="skeleton-card">
-                <div class="skeleton skeleton-image"></div>
-                <div class="card-content">
-                    <div class="flex justify-between items-start">
-                        <div class="skeleton skeleton-text skeleton-title"></div>
-                        <div class="skeleton skeleton-text w-8 h-4 rounded"></div>
+        <!-- Price Filter Modal -->
+        <div class="modal fade" id="priceFilterModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-3xl border-none shadow-2xl">
+                    <div class="modal-header border-b border-gray-100 p-6">
+                        <h5 class="modal-title font-bold text-lg">Filters</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="skeleton skeleton-text skeleton-subtitle"></div>
-                    <div class="skeleton skeleton-text w-24 h-3 mb-1"></div>
-                    <div class="skeleton skeleton-text skeleton-price"></div>
+                    <div class="modal-body p-8">
+                        <div class="mb-8">
+                            <h6 class="font-bold text-xl mb-2">Price range</h6>
+                            <p class="text-gray-500 text-sm mb-6">Nightly prices before fees and taxes</p>
+
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="flex-1 p-3 border border-gray-300 rounded-xl focus-within:ring-2 focus-within:ring-black">
+                                    <label class="block text-[10px] text-gray-500 uppercase font-bold">Minimum</label>
+                                    <div class="flex items-center">
+                                        <span class="mr-1">₹</span>
+                                        <input type="number" id="minPrice"
+                                            value="<%= (typeof minPrice !== 'undefined') ? minPrice : '' %>"
+                                            class="w-full border-none p-0 focus:ring-0 text-base" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="w-4 h-px bg-gray-300"></div>
+                                <div
+                                    class="flex-1 p-3 border border-gray-300 rounded-xl focus-within:ring-2 focus-within:ring-black">
+                                    <label class="block text-[10px] text-gray-500 uppercase font-bold">Maximum</label>
+                                    <div class="flex items-center">
+                                        <span class="mr-1">₹</span>
+                                        <input type="number" id="maxPrice"
+                                            value="<%= (typeof maxPrice !== 'undefined') ? maxPrice : '' %>"
+                                            class="w-full border-none p-0 focus:ring-0 text-base" placeholder="50,000+">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-t border-gray-100 p-4 flex justify-between">
+                        <button type="button" class="px-4 py-2 text-sm font-bold underline hover:bg-gray-50 rounded-lg"
+                            onclick="clearFilters()">Clear all</button>
+                        <button type="button"
+                            class="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all"
+                            onclick="applyPriceFilter()">Show listings</button>
+                    </div>
                 </div>
             </div>
-            <% } %>
-    </div>
+        </div>
 
-    <!-- Actual Listings Grid -->
-    <div id="actual-listings" class="listings-grid pt-32" data-loading="true">
-        <% listings.forEach((listing, index)=> {
-            // Reliable Rating Text
-            let ratingText = "New";
-            if(listing.reviews && listing.reviews.length > 0) {
-            let total = 0;
-            listing.reviews.forEach(r => total += r.rating || 0);
-            ratingText = (total / listing.reviews.length).toFixed(1); // "4.8"
-            }
-            %>
-            <a href="/listings/<%= listing._id %>" class="listing-card animate-fade-in"
-                style="animation-delay: <%= index * 0.05 %>s">
-                <!-- Image -->
-                <div class="image-container">
-                    <img class="listing-image" src="<%= listing.image.url %>" alt="<%= listing.name %>">
-                    <div class="image-overlay"></div>
-                    <div class="favorite-btn">
-                        <i class="fas fa-heart"></i>
+        <!-- Skeleton Loading Grid (Airbnb Style) -->
+        <div id="skeleton-loading" class="listings-grid pt-32" data-loading="true">
+            <% for(let i=0; i<12; i++) { %>
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-image"></div>
+                    <div class="card-content">
+                        <div class="flex justify-between items-start">
+                            <div class="skeleton skeleton-text skeleton-title"></div>
+                            <div class="skeleton skeleton-text w-8 h-4 rounded"></div>
+                        </div>
+                        <div class="skeleton skeleton-text skeleton-subtitle"></div>
+                        <div class="skeleton skeleton-text w-24 h-3 mb-1"></div>
+                        <div class="skeleton skeleton-text skeleton-price"></div>
                     </div>
                 </div>
+                <% } %>
+        </div>
 
-                <!-- Content (Airbnb Style) -->
-                <div class="card-content">
-                    <div class="listing-header">
-                        <h2 class="listing-title">
-                            <%= listing.location %>, <%= listing.country %>
-                        </h2>
-                        <div class="rating-badge">
-                            <i class="fas fa-star text-black"></i>
-                            <span>
-                                <%= ratingText %>
-                            </span>
+        <!-- Actual Listings Grid -->
+        <div id="actual-listings" class="listings-grid pt-32" data-loading="true">
+            <% listings.forEach((listing, index)=> {
+                // Reliable Rating Text
+                let ratingText = "New";
+                if(listing.reviews && listing.reviews.length > 0) {
+                let total = 0;
+                listing.reviews.forEach(r => total += r.rating || 0);
+                ratingText = (total / listing.reviews.length).toFixed(1); // "4.8"
+                }
+                %>
+                <a href="/listings/<%= listing._id %>" class="listing-card animate-fade-in"
+                    style="animation-delay: <%= index * 0.05 %>s">
+                    <!-- Image -->
+                    <div class="image-container">
+                        <img class="listing-image" src="<%= listing.image.url %>" alt="<%= listing.name %>">
+                        <div class="image-overlay"></div>
+                        <div class="favorite-btn">
+                            <i class="fas fa-heart"></i>
                         </div>
                     </div>
 
-                    <p class="listing-subtitle text-gray-500">Hosted by <%= listing.owner ? listing.owner.username
-                            : 'Host' %>
-                    </p>
-                    <p class="listing-subtitle text-gray-500">Oct 23 - 28</p>
+                    <!-- Content (Airbnb Style) -->
+                    <div class="card-content">
+                        <div class="listing-header">
+                            <h2 class="listing-title">
+                                <%= listing.location %>, <%= listing.country %>
+                            </h2>
+                            <div class="rating-badge">
+                                <i class="fas fa-star text-black"></i>
+                                <span>
+                                    <%= ratingText %>
+                                </span>
+                            </div>
+                        </div>
 
-                    <div class="price-container mt-1">
-                        <span class="price text-black">₹<%= listing.price ? listing.price.toLocaleString("en-IN") : 0 %>
-                        </span>
-                        <span class="price-period"> night</span>
+                        <p class="listing-subtitle text-gray-500">Hosted by <%= listing.owner ? listing.owner.username
+                                : 'Host' %>
+                        </p>
+                        <p class="listing-subtitle text-gray-500">Oct 23 - 28</p>
+
+                        <div class="price-container mt-1">
+                            <span class="price text-black">₹<%= listing.price ? listing.price.toLocaleString("en-IN") :
+                                    0 %>
+                            </span>
+                            <span class="price-period"> night</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <% }); %>
-    </div>
+                </a>
+                <% }); %>
+        </div>
     </div>
 
     <!-- Map Script -->
@@ -164,15 +218,33 @@
 
     <!-- Client-side Interactions -->
     <script>
+        // Global Filter Functions
+        function applyPriceFilter() {
+            const min = document.getElementById('minPrice').value;
+            const max = document.getElementById('maxPrice').value;
+            const url = new URL(window.location.href);
+            if (min) url.searchParams.set('minPrice', min);
+            else url.searchParams.delete('minPrice');
+            if (max) url.searchParams.set('maxPrice', max);
+            else url.searchParams.delete('maxPrice');
+            window.location.href = url.href;
+        }
+
+        function clearFilters() {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('minPrice');
+            url.searchParams.delete('maxPrice');
+            window.location.href = url.href;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Simulate loading complete or wait for images
+            // Skeleton / Content Switch
             const skeleton = document.getElementById('skeleton-loading');
             const actual = document.getElementById('actual-listings');
 
-            // Optional: Wait for most images to load or just a small timeout
             setTimeout(() => {
-                skeleton.setAttribute('data-loading', 'false');
-                actual.setAttribute('data-loading', 'false');
+                if (skeleton) skeleton.setAttribute('data-loading', 'false');
+                if (actual) actual.setAttribute('data-loading', 'false');
 
                 // Animation
                 const cards = document.querySelectorAll('.animate-fade-in');
@@ -182,12 +254,57 @@
                 });
             }, 800);
 
-            // Filter Click Interaction
+            // Search Autocomplete Logic
+            const searchInput = document.getElementById('search-input');
+            const suggestionsBox = document.getElementById('search-suggestions');
+
+            if (searchInput) {
+                let debounceTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(debounceTimeout);
+                    const q = e.target.value;
+
+                    if (q.length < 2) {
+                        suggestionsBox.classList.add('hidden');
+                        return;
+                    }
+
+                    debounceTimeout = setTimeout(async () => {
+                        try {
+                            const res = await fetch(`/listings/search/suggestions?q=${q}`);
+                            const data = await res.json();
+
+                            if (data.length > 0) {
+                                suggestionsBox.innerHTML = data.map(item => `
+                                    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 group border-b border-gray-50 last:border-none" 
+                                         onclick="window.location.href='/?search=${encodeURIComponent(item)}'">
+                                        <i class="fas fa-search text-gray-400 group-hover:text-[#FF385C]"></i>
+                                        <span class="text-sm font-medium text-gray-700">${item}</span>
+                                    </div>
+                                `).join('');
+                                suggestionsBox.classList.remove('hidden');
+                            } else {
+                                suggestionsBox.classList.add('hidden');
+                            }
+                        } catch (err) {
+                            console.error("Autocomplete error:", err);
+                        }
+                    }, 300);
+                });
+
+                // Hide suggestions on outside click
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                        suggestionsBox.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Category Filter Highlight (Already handled by EJS class binding, but adding click hover logic if needed)
             const filters = document.querySelectorAll('.filter-item');
             filters.forEach(f => {
                 f.addEventListener('click', () => {
-                    filters.forEach(i => i.classList.remove('active'));
-                    f.classList.add('active');
+                    // Page will reload anyway via onclick in HTML
                 });
             });
 

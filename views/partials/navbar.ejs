@@ -26,18 +26,25 @@
                 <div class="hidden md:flex flex-1 justify-center items-center h-full px-6">
                     <div class="group relative w-full max-w-xl">
                         <!-- Search Container -->
-                        <div
-                            class="flex items-center w-full h-12 bg-white/80 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 px-3 gap-3 hover:border-gray-300 focus-within:ring-2 focus-within:ring-gray-100 focus-within:border-gray-300">
+                        <form action="/" method="GET" class="relative">
+                            <div
+                                class="flex items-center w-full h-12 bg-white/80 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 px-3 gap-3 hover:border-gray-300 focus-within:ring-2 focus-within:ring-gray-100 focus-within:border-gray-300">
 
-                            <!-- Search Icon -->
-                            <i
-                                class="fas fa-search text-gray-400 group-hover:text-[#FF385C] transition-colors duration-300"></i>
+                                <!-- Search Icon -->
+                                <i
+                                    class="fas fa-search text-gray-400 group-hover:text-[#FF385C] transition-colors duration-300"></i>
 
-                            <!-- Input -->
-                            <input type="text"
-                                class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-medium text-gray-700 placeholder-gray-400 leading-normal px-2 h-full rounded-full"
-                                placeholder="Search destinations...">
-                        </div>
+                                <!-- Input -->
+                                <input type="text" name="search" id="search-input" autocomplete="off"
+                                    value="<%= (typeof search !== 'undefined') ? search : '' %>"
+                                    class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-medium text-gray-700 placeholder-gray-400 leading-normal px-2 h-full rounded-full"
+                                    placeholder="Search destinations...">
+                            </div>
+                            <!-- Autocomplete Dropdown -->
+                            <div id="search-suggestions"
+                                class="absolute top-14 left-0 right-0 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[100] hidden">
+                            </div>
+                        </form>
                     </div>
                 </div>
 
