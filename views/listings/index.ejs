@@ -83,8 +83,26 @@
         </div>
     </div>
 
-    <!-- Listings Grid -->
-    <div class="listings-grid pt-32">
+    <!-- Skeleton Loading Grid (Airbnb Style) -->
+    <div id="skeleton-loading" class="listings-grid pt-32" data-loading="true">
+        <% for(let i=0; i<12; i++) { %>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="card-content">
+                    <div class="flex justify-between items-start">
+                        <div class="skeleton skeleton-text skeleton-title"></div>
+                        <div class="skeleton skeleton-text w-8 h-4 rounded"></div>
+                    </div>
+                    <div class="skeleton skeleton-text skeleton-subtitle"></div>
+                    <div class="skeleton skeleton-text w-24 h-3 mb-1"></div>
+                    <div class="skeleton skeleton-text skeleton-price"></div>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
+    <!-- Actual Listings Grid -->
+    <div id="actual-listings" class="listings-grid pt-32" data-loading="true">
         <% listings.forEach((listing, index)=> {
             // Reliable Rating Text
             let ratingText = "New";
@@ -100,9 +118,9 @@
                 <div class="image-container">
                     <img class="listing-image" src="<%= listing.image.url %>" alt="<%= listing.name %>">
                     <div class="image-overlay"></div>
-                    <button class="favorite-btn">
+                    <div class="favorite-btn">
                         <i class="fas fa-heart"></i>
-                    </button>
+                    </div>
                 </div>
 
                 <!-- Content (Airbnb Style) -->
@@ -147,12 +165,22 @@
     <!-- Client-side Interactions -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animation
-            const cards = document.querySelectorAll('.animate-fade-in');
-            cards.forEach(card => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            });
+            // Simulate loading complete or wait for images
+            const skeleton = document.getElementById('skeleton-loading');
+            const actual = document.getElementById('actual-listings');
+
+            // Optional: Wait for most images to load or just a small timeout
+            setTimeout(() => {
+                skeleton.setAttribute('data-loading', 'false');
+                actual.setAttribute('data-loading', 'false');
+
+                // Animation
+                const cards = document.querySelectorAll('.animate-fade-in');
+                cards.forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                });
+            }, 800);
 
             // Filter Click Interaction
             const filters = document.querySelectorAll('.filter-item');
@@ -171,7 +199,6 @@
                     e.stopPropagation();
                     btn.classList.toggle('active');
                     const icon = btn.querySelector('i');
-                    // Toggle Solid/Regular if needed, or just relying on color
                     icon.classList.add('fas');
                 });
             });

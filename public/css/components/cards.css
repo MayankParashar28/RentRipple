@@ -31,10 +31,6 @@
     transition: var(--transition);
 }
 
-.listing-card:hover .listing-image {
-    /* No scale effect on Airbnb, usually just arrows appear */
-}
-
 /* Overlays */
 .image-overlay {
     position: absolute;
@@ -140,5 +136,97 @@
 
 /* Default simple button hidden for card view, standard link behavior */
 .view-btn {
+    display: none;
+}
+
+/* --- Skeleton Loader & Shimmer --- */
+.skeleton-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    row-gap: 40px;
+    width: 100%;
+}
+
+.skeleton-card {
+    flex: 1 1 270px;
+    max-width: 100%;
+}
+
+.skeleton {
+    background: #f3f4f6;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    background-image: linear-gradient(90deg,
+            #f3f4f6 0%,
+            #e5e7eb 50%,
+            #f3f4f6 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 20 / 19;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-title {
+    width: 70%;
+}
+
+.skeleton-subtitle {
+    width: 40%;
+    height: 0.8rem;
+}
+
+.skeleton-price {
+    width: 30%;
+    height: 1.2rem;
+    margin-top: 0.75rem;
+}
+
+/* Grid specific fixes */
+.listings-grid.loading>* {
+    display: none;
+}
+
+/* --- Smooth Transitions --- */
+.animate-fade-in {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInUp 0.5s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hide actual listings grid until loaded */
+#actual-listings[data-loading="true"] {
+    display: none;
+}
+
+#skeleton-loading[data-loading="false"] {
     display: none;
 }
