@@ -1,7 +1,10 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: "../.env" });
+}
 const mongoose = require("mongoose");
 const Experience = require("../models/experience");
 
-mongoose.connect("mongodb://127.0.0.1:27017/AirBnb", {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -28,7 +31,7 @@ const sampleExperiences = [
     location: "Jaipur",
     price: 599,
   },
-  
+
 ];
 
 const seedExperiences = async () => {

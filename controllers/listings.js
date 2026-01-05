@@ -51,7 +51,7 @@ module.exports.index = async (req, res) => {
         .populate("reviews", "rating")
         .lean();
 
-    res.render("listings/index", { listings, mapToken });
+    res.render("listings/index", { listings, mapToken, category });
 };
 
 module.exports.searchSuggestions = async (req, res) => {

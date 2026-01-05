@@ -1,0 +1,9 @@
+{
+    "ignore": [
+        "node_modules/*",
+        ".git/*",
+        "public/*",
+        "views/*"
+    ],
+    "delay": "1000"
+}

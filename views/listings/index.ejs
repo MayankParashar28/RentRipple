@@ -6,116 +6,133 @@
     <div class="listings-container">
 
         <!-- Category Filters -->
-        <div class="filters-container">
-            <div class="filter-item active">
-                <i class="fas fa-ticket-alt"></i>
-                <span>Icons</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-fire"></i>
-                <span>Trending</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-bed"></i>
-                <span>Rooms</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-city"></i>
-                <span>Top Cities</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-mountain"></i>
-                <span>Countryside</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-chess-rook"></i>
-                <span>Castles</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-water"></i>
-                <span>Pools</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-campground"></i>
-                <span>Camping</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-tractor"></i>
-                <span>Farms</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-snowflake"></i>
-                <span>Arctic</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-umbrella-beach"></i>
-                <span>Beach</span>
-            </div>
-            <div class="filter-item">
-                <i class="fas fa-ship"></i>
-                <span>Boats</span>
-            </div>
+        <div
+            class="fixed top-[5.5rem] left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-sm py-3 mx-4 md:mx-auto md:max-w-[96%]">
+            <div class="max-w-[99.5%] mx-auto flex items-center gap-4 px-4 overflow-hidden h-14">
 
-            <div class="tax-toggle hidden md:flex">
-                <div class="form-check form-switch form-check-reverse p-0 m-0 flex gap-2 items-center">
-                    <label class="form-check-label text-xs font-semibold m-0 cursor-pointer"
-                        for="flexSwitchCheckDefault">Display total before taxes</label>
-                    <input class="form-check-input m-0 cursor-pointer" type="checkbox" role="switch"
-                        id="flexSwitchCheckDefault">
+                <!-- Filters Scroll Area -->
+                <div
+                    class="flex-1 flex items-center gap-3 overflow-x-auto overflow-y-hidden no-scrollbar scroll-smooth h-full">
+                    <div onclick="window.location.href='/?category=Beach'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Beach') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-umbrella-beach text-sm <%= (typeof category !== 'undefined' && category === 'Beach') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Beach') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Beach</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Mountains'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Mountains') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-mountain text-sm <%= (typeof category !== 'undefined' && category === 'Mountains') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Mountains') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Mountain</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Cities'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Cities') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-city text-sm <%= (typeof category !== 'undefined' && category === 'Cities') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Cities') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Cities</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Castle'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Castle') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-chess-rook text-sm <%= (typeof category !== 'undefined' && category === 'Castle') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Castle') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Castles</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Pools'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Pools') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-water text-sm <%= (typeof category !== 'undefined' && category === 'Pools') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Pools') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Pools</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Camping'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Camping') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-campground text-sm <%= (typeof category !== 'undefined' && category === 'Camping') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Camping') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Camping</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Farms'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Farms') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-tractor text-sm <%= (typeof category !== 'undefined' && category === 'Farms') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Farms') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Farms</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Arctic'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Arctic') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-snowflake text-sm <%= (typeof category !== 'undefined' && category === 'Arctic') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Arctic') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Arctic</span>
+                    </div>
+                    <div onclick="window.location.href='/?category=Deserts'"
+                        class="filter-item flex flex-row items-center gap-2 px-3 py-1.5 rounded-full border <%= (typeof category !== 'undefined' && category === 'Deserts') ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:shadow-sm' %> cursor-pointer group transition-all min-w-fit">
+                        <i
+                            class="fas fa-sun text-sm <%= (typeof category !== 'undefined' && category === 'Deserts') ? 'text-white' : 'text-gray-500 group-hover:text-[#FF385C]' %> transition-colors"></i>
+                        <span
+                            class="text-xs font-medium <%= (typeof category !== 'undefined' && category === 'Deserts') ? 'text-white' : 'text-gray-600 group-hover:text-black' %>">Deserts</span>
+                    </div>
                 </div>
             </div>
+
+
         </div>
+    </div>
 
-        <!-- Listings Grid -->
-        <div class="listings-grid">
-            <% listings.forEach((listing, index)=> {
-                // Reliable Rating Text
-                let ratingText = "New";
-                if(listing.reviews && listing.reviews.length > 0) {
-                let total = 0;
-                listing.reviews.forEach(r => total += r.rating || 0);
-                ratingText = (total / listing.reviews.length).toFixed(1); // "4.8"
-                }
-                %>
-                <a href="/listings/<%= listing._id %>" class="listing-card animate-fade-in"
-                    style="animation-delay: <%= index * 0.05 %>s">
-                    <!-- Image -->
-                    <div class="image-container">
-                        <img class="listing-image" src="<%= listing.image.url %>" alt="<%= listing.name %>">
-                        <div class="image-overlay"></div>
-                        <button class="favorite-btn">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    </div>
+    <!-- Listings Grid -->
+    <div class="listings-grid pt-32">
+        <% listings.forEach((listing, index)=> {
+            // Reliable Rating Text
+            let ratingText = "New";
+            if(listing.reviews && listing.reviews.length > 0) {
+            let total = 0;
+            listing.reviews.forEach(r => total += r.rating || 0);
+            ratingText = (total / listing.reviews.length).toFixed(1); // "4.8"
+            }
+            %>
+            <a href="/listings/<%= listing._id %>" class="listing-card animate-fade-in"
+                style="animation-delay: <%= index * 0.05 %>s">
+                <!-- Image -->
+                <div class="image-container">
+                    <img class="listing-image" src="<%= listing.image.url %>" alt="<%= listing.name %>">
+                    <div class="image-overlay"></div>
+                    <button class="favorite-btn">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
 
-                    <!-- Content (Airbnb Style) -->
-                    <div class="card-content">
-                        <div class="listing-header">
-                            <h2 class="listing-title">
-                                <%= listing.location %>, <%= listing.country %>
-                            </h2>
-                            <div class="rating-badge">
-                                <i class="fas fa-star text-black"></i>
-                                <span>
-                                    <%= ratingText %>
-                                </span>
-                            </div>
-                        </div>
-
-                        <p class="listing-subtitle text-gray-500">Hosted by <%= listing.owner ? listing.owner.username
-                                : 'Host' %>
-                        </p>
-                        <p class="listing-subtitle text-gray-500">Oct 23 - 28</p>
-
-                        <div class="price-container mt-1">
-                            <span class="price text-black">₹<%= listing.price ? listing.price.toLocaleString("en-IN") :
-                                    0 %></span>
-                            <span class="price-period"> night</span>
+                <!-- Content (Airbnb Style) -->
+                <div class="card-content">
+                    <div class="listing-header">
+                        <h2 class="listing-title">
+                            <%= listing.location %>, <%= listing.country %>
+                        </h2>
+                        <div class="rating-badge">
+                            <i class="fas fa-star text-black"></i>
+                            <span>
+                                <%= ratingText %>
+                            </span>
                         </div>
                     </div>
-                </a>
-                <% }); %>
-        </div>
+
+                    <p class="listing-subtitle text-gray-500">Hosted by <%= listing.owner ? listing.owner.username
+                            : 'Host' %>
+                    </p>
+                    <p class="listing-subtitle text-gray-500">Oct 23 - 28</p>
+
+                    <div class="price-container mt-1">
+                        <span class="price text-black">₹<%= listing.price ? listing.price.toLocaleString("en-IN") : 0 %>
+                        </span>
+                        <span class="price-period"> night</span>
+                    </div>
+                </div>
+            </a>
+            <% }); %>
+    </div>
     </div>
 
     <!-- Map Script -->

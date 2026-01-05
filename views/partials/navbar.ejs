@@ -1,117 +1,154 @@
-<!-- Airbnb Navbar (Centered Search) -->
-<nav class="navbar-airbnb">
-    <div class="listings-container w-full h-full">
-        <!-- Flex Container: Logo (Left), Search (Center), Menus (Right) -->
-        <div class="flex justify-between items-center h-full">
+<!-- Premium Light Glass Navbar -->
+<nav class="sticky top-0 z-50 w-full">
+    <!-- Full Width Container -->
+    <div class="w-full bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-500">
+        <div class="w-full">
+            <div class="flex justify-between items-center h-20 px-4 lg:px-8">
 
-            <!-- LEFT: Logo & Company Name -->
-            <div class="flex-shrink-0 flex items-center flex-none">
-                <a href="/" class="flex items-center gap-2 text-decoration-none">
-                    <i class="fab fa-airbnb text-3xl" style="color: var(--primary-color);"></i>
-                    <span class="font-bold text-xl tracking-tight hidden lg:block" style="color: var(--primary-color);">
-                        rentripple
-                    </span>
-                </a>
-            </div>
-
-            <!-- CENTER: Search Bar Only -->
-            <div class="hidden md:flex flex-1 justify-center px-8">
-                <div
-                    class="flex items-center bg-white border rounded-full shadow-sm hover:shadow-md transition cursor-pointer py-2.5 px-6 gap-4 border-gray-300">
-                    <span class="text-sm font-medium border-r pr-4 text-gray-900">Anywhere</span>
-                    <span class="text-sm font-medium border-r pr-4 text-gray-900">Any week</span>
-                    <span class="text-sm text-gray-500 pl-2">Add guests</span>
-                    <div class="bg-[#FF385C] p-2 rounded-full text-white">
-                        <i class="fas fa-search text-xs"></i>
-                    </div>
+                <!-- LEFT: Brand / Logo Area -->
+                <div class="flex-shrink-0 flex items-center h-full">
+                    <a href="/"
+                        class="flex items-center gap-2 group text-decoration-none focus:outline-none rounded-xl focus:ring-2 focus:ring-gray-200">
+                        <div
+                            class="text-[#FF385C] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                class="w-10 h-10 fill-current">
+                                <path
+                                    d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="font-bold text-xl tracking-tight text-[#FF385C] hidden md:block group-hover:text-[#E61E4D] transition-colors font-[Outfit]">RentRipple</span>
+                    </a>
                 </div>
-            </div>
 
-            <!-- RIGHT: Links & Profile -->
-            <div class="hidden md:flex items-center gap-4 flex-none justify-end">
+                <!-- CENTER: Premium Search Bar -->
+                <div class="hidden md:flex flex-1 justify-center items-center h-full px-6">
+                    <div class="group relative w-full max-w-xl">
+                        <!-- Search Container -->
+                        <div
+                            class="flex items-center w-full h-12 bg-white/80 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 px-3 gap-3 hover:border-gray-300 focus-within:ring-2 focus-within:ring-gray-100 focus-within:border-gray-300">
 
-                <!-- Explore Link -->
-                <a href="/listings"
-                    class="text-sm font-semibold text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-full transition text-decoration-none">
-                    Explore
-                </a>
+                            <!-- Search Icon -->
+                            <i
+                                class="fas fa-search text-gray-400 group-hover:text-[#FF385C] transition-colors duration-300"></i>
 
-                <!-- Rent Home Link -->
-                <a href="/listings/new"
-                    class="text-sm font-semibold text-gray-800 hover:bg-gray-100 px-3 py-2 rounded-full transition text-decoration-none">
-                    Rent home
-                </a>
-
-                <!-- Globe Icon -->
-                <button class="p-2 hover:bg-gray-100 rounded-full transition">
-                    <i class="fas fa-globe text-gray-900"></i>
-                </button>
-
-                <!-- Profile Button -->
-                <div class="flex items-center gap-3 border border-gray-300 rounded-full p-1 pl-3 hover:shadow-md transition cursor-pointer ml-1 relative"
-                    id="user-menu-btn">
-                    <i class="fas fa-bars text-gray-500 text-sm"></i>
-                    <div
-                        class="bg-gray-500 text-white rounded-full p-1 w-8 h-8 flex items-center justify-center overflow-hidden">
-                        <% if(curruser) { %>
-                            <span class="text-xs font-bold">
-                                <%= curruser.username[0].toUpperCase() %>
-                            </span>
-                            <% } else { %>
-                                <i class="fas fa-user text-xs"></i>
-                                <% } %>
+                            <!-- Input -->
+                            <input type="text"
+                                class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-medium text-gray-700 placeholder-gray-400 leading-normal px-2 h-full rounded-full"
+                                placeholder="Search destinations...">
+                        </div>
                     </div>
                 </div>
 
-            </div>
+                <!-- RIGHT: Actions -->
+                <div class="hidden md:flex items-center h-full gap-4 flex-none justify-end">
 
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center gap-4">
-                <div class="bg-white border rounded-full shadow-sm p-2 flex items-center justify-center w-10 h-10">
-                    <i class="fas fa-search text-[#FF385C]"></i>
+                    <div class="flex items-center gap-1 h-10">
+                        <a href="/listings"
+                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 hover:shadow-sm rounded-full transition-all duration-300 text-decoration-none border border-transparent hover:border-gray-200/50 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            Explore
+                        </a>
+                        <a href="/listings/new"
+                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 hover:shadow-sm rounded-full transition-all duration-300 text-decoration-none border border-transparent hover:border-gray-200/50 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            Rent home
+                        </a>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="relative h-12 flex items-center" id="user-menu-btn">
+                        <button
+                            class="flex items-center gap-2.5 bg-white border border-gray-200 hover:border-gray-300 hover:shadow-lg rounded-full p-1.5 pl-3 transition-all duration-300 group hover:-translate-y-0.5 h-10">
+                            <i
+                                class="fas fa-bars text-gray-400 group-hover:text-gray-600 transition-colors text-sm"></i>
+                            <div
+                                class="h-8 w-8 rounded-full bg-gradient-to-tr from-gray-800 to-gray-900 text-white flex items-center justify-center shadow-lg shadow-gray-200 overflow-hidden ring-2 ring-white">
+                                <% if(curruser) { %>
+                                    <span class="text-xs font-bold text-white/90">
+                                        <%= curruser.username[0].toUpperCase() %>
+                                    </span>
+                                    <% } else { %>
+                                        <i class="fas fa-user text-xs"></i>
+                                        <% } %>
+                            </div>
+                        </button>
+                    </div>
+
                 </div>
-                <button id="mobile-menu-btn"
-                    class="text-gray-600 hover:text-gray-900 focus:outline-none border p-2 rounded-full">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center ">
+                    <button id="mobile-menu-btn"
+                        class="p-2.5 bg-white rounded-xl shadow-sm border border-gray-100 text-gray-600 active:scale-95 transition-all">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- User Dropdown (Hidden) -->
+    <!-- Dropdown Menu -->
     <div id="user-dropdown"
-        class="hidden absolute top-20 right-20 bg-white rounded-xl shadow-float w-64 py-2 border border-gray-100 overflow-hidden z-[60]">
+        class="hidden absolute top-24 right-0 w-64 rounded-2xl bg-white/80 backdrop-blur-2xl border border-white/40 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden z-[60] transform origin-top-right transition-all duration-300 opacity-0 scale-95 ring-1 ring-black/5 m-2">
         <% if(!curruser) { %>
-            <a href="/users/login"
-                class="block px-4 py-3 hover:bg-gray-50 font-semibold text-gray-800 text-decoration-none">Log in</a>
-            <a href="/users/signup" class="block px-4 py-3 hover:bg-gray-50 text-gray-600 text-decoration-none">Sign
-                up</a>
+            <div class="p-2">
+                <a href="/users/login"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
+                    Log in
+                </a>
+                <a href="/users/signup"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
+                    Sign up
+                </a>
+            </div>
             <% } else { %>
-                <div class="px-4 py-3 border-b text-sm font-semibold">Messages</div>
-                <div class="px-4 py-3 border-b text-sm font-semibold">Trips</div>
-                <div class="px-4 py-3 border-b text-sm font-semibold">Wishlists</div>
-                <div class="border-t mt-2">
-                    <a href="/logout" class="block px-4 py-3 hover:bg-gray-50 text-gray-600 text-decoration-none">Log
+                <div class="p-2 border-b border-gray-100/50">
+                    <span class="px-4 py-1 text-[10px] uppercase font-bold text-gray-400 tracking-wider">Account</span>
+                    <a href="#"
+                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Messages</a>
+                    <a href="#"
+                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Trips</a>
+                    <a href="#"
+                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Wishlists</a>
+                </div>
+                <div class="p-2">
+                    <a href="/logout"
+                        class="block px-4 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition-all text-decoration-none">Log
                         out</a>
                 </div>
                 <% } %>
-                    <div class="border-t mt-2">
-                        <a href="#" class="block px-4 py-3 hover:bg-gray-50 text-gray-600 text-decoration-none">Help
-                            Center</a>
-                    </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white shadow-lg border-t z-50 p-4 md:hidden">
-        <div class="flex flex-col gap-4">
-            <a href="/listings" class="font-semibold text-gray-800">Explore</a>
-            <a href="/listings/new" class="font-semibold text-gray-800">Rent home</a>
-            <hr>
+    <!-- Mobile Overlay -->
+    <div id="mobile-menu"
+        class="hidden absolute top-24 left-2 right-2 bg-white/95 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl z-50 p-4 md:hidden ring-1 ring-black/5">
+        <div class="flex flex-col gap-1">
+            <a href="/listings"
+                class="flex items-center gap-4 px-5 py-4 text-gray-800 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">
+                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"><i
+                        class="fas fa-compass text-sm"></i></div>
+                Explore
+            </a>
+            <a href="/listings/new"
+                class="flex items-center gap-4 px-5 py-4 text-gray-800 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">
+                <div class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF385C]"><i
+                        class="fas fa-home text-sm"></i></div>
+                Rent home
+            </a>
+            <div class="h-px bg-gray-100 my-2 mx-4"></div>
             <% if(!curruser) { %>
-                <a href="/users/login" class="font-semibold text-gray-800">Log in</a>
-                <a href="/users/signup" class="font-semibold text-gray-800">Sign up</a>
+                <a href="/users/login"
+                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">Log
+                    in</a>
+                <a href="/users/signup"
+                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">Sign
+                    up</a>
                 <% } else { %>
-                    <a href="/logout" class="font-semibold text-red-500">Log out</a>
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all text-decoration-none font-medium">
+                        <i class="fas fa-sign-out-alt w-5 text-center"></i> Log out
+                    </a>
                     <% } %>
         </div>
     </div>
@@ -122,17 +159,42 @@
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
+        function toggleDropdown() {
+            if (dropdown.classList.contains('hidden')) {
+                dropdown.classList.remove('hidden');
+                setTimeout(() => {
+                    dropdown.classList.remove('opacity-0', 'scale-95');
+                    dropdown.classList.add('opacity-100', 'scale-100');
+                }, 10);
+            } else {
+                dropdown.classList.remove('opacity-100', 'scale-100');
+                dropdown.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    dropdown.classList.add('hidden');
+                }, 200);
+            }
+        }
+
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            dropdown.classList.toggle('hidden');
+            toggleDropdown();
         });
 
-        mobileBtn.addEventListener('click', () => {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileMenu.classList.toggle('hidden');
         });
 
         document.addEventListener('click', () => {
-            dropdown.classList.add('hidden');
+            if (!dropdown.classList.contains('hidden')) {
+                toggleDropdown();
+            }
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
         });
+
+        dropdown.addEventListener('click', (e) => e.stopPropagation());
+        mobileMenu.addEventListener('click', (e) => e.stopPropagation());
     </script>
 </nav>

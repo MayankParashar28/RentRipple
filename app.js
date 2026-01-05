@@ -34,7 +34,7 @@ const upload = multer({ storage });
 const dbUrl = process.env.MONGO_URL;
 
 // Connect to MongoDB
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUrl)
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.error("Connection error:", err));
 
