@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema({
-    name:  {
-        type: String, 
+    name: {
+        type: String,
         required: true
     },
     description: String,
     address: String,
-    image: {  
+    image: {
         url: String,
         filename: String,
     },
@@ -21,10 +21,17 @@ const listingSchema = new mongoose.Schema({
     checkin: String,
     checkout: String,
     amenities: [String],
+    category: {
+        type: String,
+        enum: ['Beach', 'Mountains', 'Cities', 'Castles', 'Pools', 'Camping', 'Farms', 'Arctic', 'Deserts'],
+        required: false
+    },
     rules: String,
     reviews: [
-        { type: mongoose.Schema.Types.ObjectId,
-          ref: "Review" }
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }
     ],
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -41,16 +48,16 @@ const listingSchema = new mongoose.Schema({
             required: false,
         },
     },
-}, { 
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-listingSchema.virtual('averageRating').get(function() {
-  if (this.reviews.length === 0) return 0;
-  const sum = this.reviews.reduce((acc, review) => acc + (review.rating || 0), 0);
-  return (sum / this.reviews.length).toFixed(1);
+listingSchema.virtual('averageRating').get(function () {
+    if (this.reviews.length === 0) return 0;
+    const sum = this.reviews.reduce((acc, review) => acc + (review.rating || 0), 0);
+    return (sum / this.reviews.length).toFixed(1);
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

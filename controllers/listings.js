@@ -147,7 +147,7 @@ module.exports.createListing = async (req, res, next) => {
 
     await newlisting.save();
     req.flash('success', 'Listing created successfully!');
-    res.redirect("/");
+    res.redirect("/listings");
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -155,7 +155,7 @@ module.exports.renderEditForm = async (req, res) => {
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash('error', 'Listing not found');
-        return res.redirect('/');
+        return res.redirect('/listings');
     }
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
@@ -166,6 +166,23 @@ module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
 
+    // Geocode if location changed
+    if (req.body.listing.location) {
+        try {
+            const response = await getGeocodingClient().forwardGeocode({
+                query: req.body.listing.location,
+                limit: 1,
+            }).send();
+            const geoFeature = response.body.features[0];
+            if (geoFeature && Array.isArray(geoFeature.geometry.coordinates)) {
+                listing.geometry = geoFeature.geometry;
+                await listing.save();
+            }
+        } catch (geoErr) {
+            console.error("⚠️ Mapbox Geocoding failed during update:", geoErr.message);
+        }
+    }
+
     if (typeof req.file !== 'undefined') {
         let url = req.file.path;
         let filename = req.file.filename;
@@ -173,14 +190,14 @@ module.exports.updateListing = async (req, res) => {
         await listing.save();
     }
     req.flash('success', 'Listing updated successfully!');
-    res.redirect(`/${id}`);
+    res.redirect(`/listings/${id}`);
 };
 
 module.exports.destroyListing = async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     req.flash('success', 'Listing deleted successfully!');
-    res.redirect("/");
+    res.redirect("/listings");
 };
 
 // Booking Controller Logic
@@ -193,7 +210,7 @@ module.exports.renderCheckout = async (req, res) => {
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash('error', 'Listing not found!');
-        return res.redirect('/');
+        return res.redirect('/listings');
     }
 
     // Pass data to checkout view
@@ -225,7 +242,7 @@ module.exports.renderCheckout = async (req, res) => {
 
         if (existingBooking) {
             req.flash('error', 'Dates are no longer available!');
-            return res.redirect(`/${id}`);
+            return res.redirect(`/listings/${id}`);
         }
     }
 
@@ -239,7 +256,7 @@ module.exports.createBooking = async (req, res) => {
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash('error', 'Listing not found!');
-        return res.redirect('/');
+        return res.redirect('/listings');
     }
 
     const checkIn = new Date(booking.checkIn);
@@ -249,7 +266,7 @@ module.exports.createBooking = async (req, res) => {
     // Basic Validation
     if (checkIn >= checkOut) {
         req.flash('error', 'Check-out date must be after Check-in date!');
-        return res.redirect(`/${id}`);
+        return res.redirect(`/listings/${id}`);
     }
 
     // Check availability again (Race Condition check)
@@ -265,7 +282,7 @@ module.exports.createBooking = async (req, res) => {
 
     if (existingBooking) {
         req.flash('error', 'Sorry, these dates were just booked by someone else!');
-        return res.redirect(`/${id}`);
+        return res.redirect(`/listings/${id}`);
     }
 
     // Calculate Price

@@ -1,388 +1,437 @@
 <% layout("./layouts/boilerplate.ejs") %>
 
-
   <body>
-    <section class="property-detail">
-      <div class="container">
-        <h1 class="page-title">Property Details</h1>
-
-        <div class="listing-card">
-          <div class="listing-grid">
-            <!-- Image Section -->
-            <div class="image-section">
-              <div class="image-container">
-                <img src="<%= listing.image?.url || '/placeholder.svg' %>" alt="<%= listing.name %>"
-                  class="property-image">
-                <div class="image">
-                </div>
-
-                <!-- Rating Badge -->
-                <div class="rating-badge">
-                  <i class="fas fa-star"></i>
-                  <% let total=0; listing.reviews.forEach(r=> total += r.rating || 0); %>
-                    <span>
-                      <%= listing.reviews.length ? (total / listing.reviews.length).toFixed(1) : "No rating" %>
-                    </span>
-                </div>
-
-                <!-- Owner Badge -->
-                <div class="owner-badge">
-                  <div class="owner-avatar">
-                    <i class="fas fa-user"></i>
-                  </div>
-                  <span>
-                    <%= listing.owner?.username || "Host" %>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Content Section -->
-            <div class="content-section">
-              <div class="content-wrapper">
-                <h1 class="property-title">
-                  <%= listing.name %>
-                </h1>
-
-                <!-- Features Tags -->
-                <div class="features-container">
-                  <% if (listing.amenities && listing.amenities.length> 0) { %>
-                    <% listing.amenities.forEach(feature=> { %>
-                      <span class="feature-tag">
-                        <i class="fas fa-check-circle"></i>
-                        <%= feature %>
-                      </span>
-                      <% }) %>
-                        <% } else { %>
-                          <span class="feature-tag text-gray-400">No features listed</span>
-                          <% } %>
-                </div>
-
-                <!-- Description -->
-                <p class="property-description">
-                  <%= listing.description %>
-                </p>
-
-                <!-- House Rules -->
-                <div class="info-section">
-                  <h3 class="section-title">House Rules</h3>
-                  <p class="section-content">
-                    <%= listing.rules || 'No specific rules provided.' %>
-                  </p>
-                </div>
-
-
-
-                <!-- Property Info Grid -->
-                <div class="info-grid">
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-rupee-sign"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Price per night</span>
-                      <span class="info-value price">₹<%= listing.price || 'N/A' %></span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Location</span>
-                      <span class="info-value">
-                        <%= listing.location || 'N/A' %>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Country</span>
-                      <span class="info-value">
-                        <%= listing.country || 'N/A' %>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-home"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Property Type</span>
-                      <span class="info-value">
-                        <%= listing.type || 'N/A' %>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-users"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Guests</span>
-                      <span class="info-value">
-                        <%= listing.guests || 'N/A' %> Guests
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-bed"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Bedrooms</span>
-                      <span class="info-value">
-                        <%= listing.bedrooms || 'N/A' %> Bedrooms
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-bath"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Bathrooms</span>
-                      <span class="info-value">
-                        <%= listing.bathrooms || 'N/A' %> Bathrooms
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-icon">
-                      <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Check-in</span>
-                      <span class="info-value">
-                        <%= listing.checkin || 'N/A' %>
-                      </span>
-                    </div>
-                    <div class="info-content">
-                      <span class="info-label">Check-out</span>
-                      <span class="info-value">
-                        <%= listing.checkout || 'N/A' %>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                  <button class="btn-primary">
-                    <i class="fas fa-calendar-check"></i>
-                    Book Now
-                  </button>
-                  <button class="btn-secondary">
-                    <i class="fas fa-heart"></i>
-                    Save to Wishlist
-                  </button>
-                </div>
-
-                <!-- Instant Booking Info -->
-                <div class="instant-booking">
-                  <div class="instant-booking-icon">
-                    <i class="fas fa-bolt"></i>
-                  </div>
-                  <div class="instant-booking-content">
-                    <h4>Instant Booking Available</h4>
-                    <p>Book immediately without waiting for host approval</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Full-Width Hero Container -->
+    <div class="max-w-[1280px] mx-auto px-6 pt-6 pb-4">
+      <!-- Title Header -->
+      <div class="mb-6">
+        <h1
+          class="text-3xl md:text-[32px] font-extrabold text-[#222222] font-[Outfit] leading-tight tracking-tight mb-2">
+          <%= listing.name %>
+        </h1>
+        <div class="flex flex-wrap items-center gap-2 text-sm font-semibold text-[#222222]">
+          <span
+            class="flex items-center gap-1 underline cursor-pointer hover:bg-gray-100 px-2 py-1 -ml-2 rounded-lg transition-colors">
+            <%= listing.location %>, <%= listing.country %>
+          </span>
+          <% if(listing.reviews.length> 0) { %>
+            <span class="text-gray-400">•</span>
+            <span class="flex items-center gap-1">
+              <i class="fas fa-star text-xs"></i>
+              <% let total=0; listing.reviews.forEach(r=> total += r.rating || 0);
+                const avgRating = (total / listing.reviews.length).toFixed(1); %>
+                <%= avgRating %>
+            </span>
+            <span class="text-gray-400">•</span>
+            <span class="underline cursor-pointer hover:text-black">
+              <%= listing.reviews.length %> reviews
+            </span>
+            <% } else { %>
+              <span class="text-gray-400">•</span>
+              <span class="text-gray-500">New listing</span>
+              <% } %>
         </div>
       </div>
-    </section>
 
+      <!-- Image Grid (Hero) -->
+      <div
+        class="relative w-full aspect-[16/9] md:aspect-[2/1] rounded-[20px] overflow-hidden shadow-sm group cursor-pointer">
+        <img src="<%= listing.image?.url || '/placeholder.svg' %>" alt="<%= listing.name %>"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+        </div>
 
-
-    <%if(curruser && curruser._id){ %>
-      <div class="btn flex gap-2 m-5">
-        <a class="bg-zinc-700 text-white px-4 py-2 rounded-md hover:bg-zinc-600"
-          href="/listings/<%= listing._id %>/edit">edit</a>
-
-        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
-          <button class="bg-zinc-700 text-white px-4 py-2 rounded-md hover:bg-zinc-600">Delete</button>
+        <!-- Wishlist Button -->
+        <form action="/wishlist/<%= listing._id %>" method="POST" class="absolute top-4 right-4 z-20">
+          <button type="submit"
+            class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all">
+            <i
+              class="fas fa-heart <%= (curruser && wishlist && wishlist.includes(listing._id.toString())) ? 'text-[#FF385C]' : 'text-gray-400 opacity-50' %> text-lg"></i>
+          </button>
         </form>
       </div>
-      <% } %>
+    </div>
 
-        <div class="my-6 px-4 w-full rounded-lg max-w-full">
-          <h5 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">You will see your map here</h5>
-          <div id="map" class="h-[400px] w-full rounded-xl"></div>
-          <p id="map-fallback" style="display:none;color:red;">Map failed to load. Please check your internet connection
-            or Mapbox token.</p>
-        </div>
-        <div class="map-overlay my-6 px-4">
-          <div class="map-overlay-inner">
-            <div class="control-header">
-              <h2 class="control-title">
-                <i class="fas fa-map"></i>
-                Map Controls
+    <!-- Main Content Split -->
+    <div class="max-w-[1280px] mx-auto px-6 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_370px] gap-12 relative">
+
+        <!-- Left Column: Details -->
+        <div>
+          <!-- Host & Basic Stats -->
+          <div class="flex justify-between items-center border-b border-gray-200 pb-8 mb-8">
+            <div>
+              <h2 class="text-[22px] font-bold text-[#222222] font-[Outfit] mb-1">
+                Entire <%= listing.type || 'home' %> hosted by <%= listing.owner?.username || 'Host' %>
               </h2>
-              <p class="control-subtitle">Customize your map experience</p>
+              <ol class="flex flex-wrap gap-x-1 text-[16px] text-gray-600">
+                <li>
+                  <%= listing.guests || 2 %> guests
+                </li>
+                <span>•</span>
+                <li>
+                  <%= listing.bedrooms || 1 %> bedroom
+                </li>
+                <span>•</span>
+                <li>
+                  <%= listing.beds || 1 %> bed
+                </li>
+                <span>•</span>
+                <li>
+                  <%= listing.bathrooms || 1 %> bath
+                </li>
+              </ol>
             </div>
 
-            <fieldset class="select-fieldset">
-              <label class="fieldset-label" for="lightPreset">
-                <i class="fas fa-sun"></i>
-                Light Preset
-              </label>
-              <div class="custom-select">
-                <select id="lightPreset" name="lightPreset" class="w-full max-w-xs">
-                  <option value="dawn">Dawn <span class="preset-indicator preset-dawn"></span></option>
-                  <option value="day" selected>Day</option>
-                  <option value="dusk">Dusk</option>
-                  <option value="night">Night</option>
-                </select>
+            <div class="relative">
+              <div
+                class="w-14 h-14 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold shadow-md ring-4 ring-gray-50">
+                <%= listing.owner?.username ? listing.owner.username[0].toUpperCase() : 'H' %>
               </div>
-            </fieldset>
+              <% if(curruser && listing.owner && curruser._id.toString()===listing.owner._id.toString()) { %>
+                <div
+                  class="absolute -bottom-2 -right-2 bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold border-2 border-white">
+                  YOU</div>
+                <% } %>
+            </div>
+          </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full m-auto">
-              <label class="checkbox-item flex items-center gap-2" for="showPlaceLabels">
-                <div class="custom-checkbox">
-                  <input type="checkbox" id="showPlaceLabels" checked>
-                  <span class="checkmark"></span>
-                </div>
-                <span class="checkbox-label flex items-center gap-1">
-                  <i class="fas fa-map-marker-alt"></i> Show place labels
+          <!-- Description -->
+          <div class="border-b border-gray-200 pb-8 mb-8">
+            <h3 class="text-xl font-bold text-[#222222] font-[Outfit] mb-4">About this place</h3>
+            <div class="text-[#222222]/90 text-[16px] leading-[26px] whitespace-pre-line">
+              <%= listing.description %>
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="border-b border-gray-200 pb-8 mb-8">
+            <h3 class="text-xl font-bold text-[#222222] font-[Outfit] mb-6">What this place offers</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+              <% if(listing.amenities && listing.amenities.length> 0) { %>
+                <% listing.amenities.forEach(am=> { %>
+                  <div class="flex items-center gap-4 text-[#222222]">
+                    <div class="w-8 flex justify-center"><i class="fas fa-check text-2xl text-gray-400"></i></div>
+                    <!-- Replace with specific icons if available -->
+                    <span class="text-[16px]">
+                      <%= am %>
+                    </span>
+                  </div>
+                  <% }) %>
+                    <% } else { %>
+                      <div class="flex items-center gap-4 text-[#222222]">
+                        <i class="fas fa-wifi w-6 text-center text-lg text-gray-600"></i>
+                        <span class="text-[16px]">Fast Wifi</span>
+                      </div>
+                      <div class="flex items-center gap-4 text-[#222222]">
+                        <i class="fas fa-car w-6 text-center text-lg text-gray-600"></i>
+                        <span class="text-[16px]">Free parking</span>
+                      </div>
+                      <% } %>
+            </div>
+          </div>
+
+          <!-- Category / Type Badge (Optional) -->
+          <% if(listing.category) { %>
+            <div class="pb-8 border-b border-gray-200 mb-8">
+              <div class="inline-flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full">
+                <i class="fas fa-tag text-gray-500"></i>
+                <span class="font-bold text-gray-700 font-[Outfit]">
+                  <%= listing.category %> Collection
                 </span>
-              </label>
+              </div>
+            </div>
+            <% } %>
 
-              <label class="checkbox-item flex items-center gap-2" for="showPointOfInterestLabels">
-                <div class="custom-checkbox">
-                  <input type="checkbox" id="showPointOfInterestLabels" checked>
-                  <span class="checkmark"></span>
+              <!-- House Rules -->
+              <div class="border-b border-gray-200 pb-8 mb-8">
+                <h3 class="text-xl font-bold text-[#222222] font-[Outfit] mb-4">House Rules</h3>
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 text-gray-700">
+                  <%= listing.rules || "No specific rules listed. Treat this home closely like your own." %>
                 </div>
-                <span class="checkbox-label flex items-center gap-1">
-                  <i class="fas fa-star"></i> Show POI labels
-                </span>
-              </label>
+              </div>
 
-              <label class="checkbox-item flex items-center gap-2" for="showRoadLabels">
-                <div class="custom-checkbox">
-                  <input type="checkbox" id="showRoadLabels" checked>
-                  <span class="checkmark"></span>
+              <!-- Admin Controls -->
+              <% if(curruser && listing.owner && curruser._id.toString()===listing.owner._id.toString()) { %>
+                <div class="flex items-center gap-4 mb-12 bg-red-50 p-4 rounded-xl border border-red-100">
+                  <span class="text-red-800 font-bold text-sm uppercase tracking-wide">Owner Controls:</span>
+                  <a href="/listings/<%= listing._id %>/edit"
+                    class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-bold shadow-sm hover:bg-gray-50 transition-colors text-black no-underline">
+                    Edit
+                  </a>
+                  <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
+                    <button
+                      class="px-4 py-2 bg-[#FF385C] text-white rounded-lg text-sm font-bold shadow-sm hover:bg-[#D41245] transition-colors">
+                      Delete
+                    </button>
+                  </form>
                 </div>
-                <span class="checkbox-label flex items-center gap-1">
-                  <i class="fas fa-road"></i> Show road labels
-                </span>
-              </label>
+                <% } %>
+        </div>
 
+        <!-- Right Column: Booking Card -->
+        <div class="relative hidden lg:block">
+          <div
+            class="sticky top-28 bg-white rounded-2xl border border-gray-200 shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 z-10">
+            <div class="flex justify-between items-baseline mb-6">
+              <div>
+                <span class="text-[22px] font-bold text-[#222222]">₹<%= listing.price.toLocaleString("en-IN") %></span>
+                <span class="text-base text-gray-600 font-normal">night</span>
+              </div>
+              <div class="text-sm font-bold underline cursor-pointer text-[#222222]">
+                <%= listing.reviews.length %> reviews
+              </div>
+            </div>
 
-
-              <label class="checkbox-item flex items-center gap-2" for="showTransitLabels">
-                <div class="custom-checkbox">
-                  <input type="checkbox" id="showTransitLabels" checked>
-                  <span class="checkmark"></span>
+            <form action="/listings/<%= listing._id %>/checkout" method="GET">
+              <div class="border border-gray-400 rounded-xl overflow-hidden mb-4">
+                <div class="flex border-b border-gray-400">
+                  <div class="w-1/2 p-3 border-r border-gray-400 relative hover:bg-gray-50 transition-colors">
+                    <label for="checkin"
+                      class="text-[10px] font-extrabold uppercase text-gray-800 block mb-1">Check-in</label>
+                    <input type="date" id="checkin" name="checkin"
+                      class="w-full p-0 text-sm text-gray-600 bg-transparent border-none focus:ring-0 cursor-pointer font-medium"
+                      required>
+                  </div>
+                  <div class="w-1/2 p-3 relative hover:bg-gray-50 transition-colors">
+                    <label for="checkout"
+                      class="text-[10px] font-extrabold uppercase text-gray-800 block mb-1">Checkout</label>
+                    <input type="date" id="checkout" name="checkout"
+                      class="w-full p-0 text-sm text-gray-600 bg-transparent border-none focus:ring-0 cursor-pointer font-medium"
+                      required>
+                  </div>
                 </div>
-                <span class="checkbox-label flex items-center gap-1">
-                  <i class="fas fa-bus"></i> Show transit labels
-                </span>
-              </label>
+                <div class="p-3 hover:bg-gray-50 transition-colors">
+                  <label for="guests"
+                    class="text-[10px] font-extrabold uppercase text-gray-800 block mb-1">Guests</label>
+                  <select id="guests" name="guests"
+                    class="w-full p-0 text-sm text-gray-600 bg-transparent border-none focus:ring-0 cursor-pointer font-medium">
+                    <option value="1">1 guest</option>
+                    <option value="2" selected>2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit"
+                class="block w-full bg-[#E51D53] hover:bg-[#D41245] text-white text-center font-bold py-3.5 rounded-lg text-lg transition-transform active:scale-95 no-underline mb-4 shadow-md">
+                Reserve
+              </button>
+            </form>
+
+            <div class="text-center text-sm text-gray-500 mb-6">You won't be charged yet</div>
+
+            <div class="space-y-4">
+              <div class="flex justify-between text-[#222222]">
+                <span class="underline">₹<%= listing.price.toLocaleString("en-IN") %> x 5 nights</span>
+                <span>₹<%= (listing.price * 5).toLocaleString("en-IN") %></span>
+              </div>
+              <div class="flex justify-between text-[#222222]">
+                <span class="underline">Cleaning fee</span>
+                <span>₹1,500</span>
+              </div>
+              <div class="flex justify-between text-[#222222]">
+                <span class="underline">Service fee</span>
+                <span>₹2,500</span>
+              </div>
+            </div>
+
+            <div class="my-6 border-t border-gray-200"></div>
+
+            <div class="flex justify-between font-bold text-lg text-[#222222]">
+              <span>Total before taxes</span>
+              <span>₹<%= (listing.price * 5 + 1500 + 2500).toLocaleString("en-IN") %></span>
             </div>
           </div>
         </div>
+      </div>
 
+      <!-- Map Section -->
+      <div class="py-12 border-t border-gray-200 mt-8">
+        <h2 class="text-[22px] font-bold text-[#222222] font-[Outfit] mb-6">Where you'll be</h2>
+        <div id="map" class="w-full h-[480px] rounded-2xl bg-gray-100 z-0 relative" data-map-token="<%= mapToken %>"
+          data-coordinates="<%- JSON.stringify(listing.geometry?.coordinates || [77.209, 28.6139]) %>"></div>
+        <p class="mt-4 text-[16px] text-[#222222] font-semibold">
+          <%= listing.location %>, <%= listing.country %>
+        </p>
+        <p class="text-gray-500 text-sm">Exact location provided after booking.</p>
+      </div>
 
+      <!-- Reviews Section (Airbnb-style Breakdown) -->
+      <div class="py-16 border-t border-gray-100">
+        <h2 class="text-2xl font-bold text-[#222222] font-[Outfit] mb-8">
+          <% if(listing.reviews.length> 0) { %>
+            <i class="fas fa-star text-[#FF385C] mr-2"></i>
+            <% let totalt=0; listing.reviews.forEach(r=> totalt += r.rating || 0);
+              const avgRatingt = (totalt / listing.reviews.length).toFixed(2); %>
+              <%= avgRatingt %> · <%= listing.reviews.length %> reviews
+                  <% } else { %>
+                    No reviews yet
+                    <% } %>
+        </h2>
 
+        <% if(listing.reviews.length> 0) { %>
+          <div class="grid grid-cols-1 lg:grid-cols-[41.6%_1fr] gap-x-24 gap-y-12">
 
+            <!-- Left: Rating Breakdown -->
+            <div class="hidden md:block">
+              <% const counts={5:0, 4:0, 3:0, 2:0, 1:0}; listing.reviews.forEach(r=> {
+                let rt = Math.round(r.rating || 0);
+                if(rt < 1) rt=1; if(rt> 5) rt=5;
+                  counts[rt]++;
+                  });
+                  const totalRevs = listing.reviews.length;
+                  %>
+                  <div class="space-y-3">
+                    <% for(let i=5; i>=1; i--) {
+                      let pct = (counts[i] / totalRevs) * 100;
+                      %>
+                      <div class="flex items-center gap-4 text-sm text-[#222222]">
+                        <span class="w-4">
+                          <%= i %>
+                        </span>
+                        <div class="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+                          <div class="h-full bg-[#222222] rounded-full" style="width: <%= pct %>%"></div>
+                        </div>
+                      </div>
+                      <% } %>
+                  </div>
 
-        <% if (curruser) { %>
-          <div class="review mx-auto px-4 py-8 border-1 border-t-zinc-500 max-w-full">
+                  <!-- Review Action (Desktop) -->
+                  <% if(curruser) { %>
+                    <div class="mt-8">
+                      <button onclick="toggleModal(true)"
+                        class="px-6 py-3 border border-black rounded-xl font-bold hover:bg-gray-50 transition-all text-sm">
+                        Write a review
+                      </button>
+                    </div>
+                    <% } %>
+            </div>
 
-            <h1 class="text-3xl mb-5">Leave a review</h1>
-            <form method="post" action="/listings/<%= listing._id %>/reviews" class="w-full max-w-2xl">
-
-
-              <div class="flex flex-wrap items-center gap-4 mb-4">
-                <label class="text-lg mr-2 items-center" for="rating">Rating :</label>
-                <fieldset class="starability-slot">
-                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value=""
-                    aria-label="No rating." />
-                  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                  <label for="first-rate1" title="Terrible">1 star</label>
-                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                  <label for="first-rate2" title="Not good">2 stars</label>
-                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                  <label for="first-rate3" title="Average">3 stars</label>
-                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                  <label for="first-rate4" title="Very good">4 stars</label>
-                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-                  <label for="first-rate5" title="Amazing">5 stars</label>
-                </fieldset>
-              </div>
-              <div class="grid mb-4">
-                <label class="text-2xl m-2" for="comment">Comment:</label>
-                <textarea required class="p-4 text-black rounded-lg resize-none w-full max-w-full"
-                  name="review[comment]" id="comment"></textarea>
-              </div>
-              <div>
-                <button class="m-3 bg-gray-800 text-white p-2 rounded-md hover:bg-zinc-600 w-full max-w-xs"
-                  type="submit">Submit</button>
-              </div>
-            </form>
-          </div>
-          <% } %>
-            <div class="reviews border-t border-zinc-500 max-w-full mt-10 px-4">
-              <h1 class="text-xl m-2">All Reviews</h1>
-              <ul>
-                <% listing.reviews.forEach(review=> { %>
-                  <li
-                    class="bg-zinc-200 p-3 mb-6 rounded flex flex-col md:flex-row gap-4 border-y border-zinc-500 justify-between">
-                    <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
-                      <img class="h-8 w-8 rounded-full"
-                        src="https://api.dicebear.com/7.x/avataaars/svg?seed=<%= review.comment %>" />
-                      <div class="flex justify-between items-center gap-2 p-2 flex-wrap">
-                        <h2 class="text-bold mr-2">
-                          <%= review.comment %>
-                        </h2>
-                        <p class="starability-result" data-rating="<%= review.rating || 0 %>"></p>
-                        <% if (review.author && review.author.username) { %>
-                          <p class="text-sm text-gray-400">-@<%= review.author.username %>
-                          </p>
-                          <% } %>
-                            <p class="text-sm text-gray-400 ml-5"
-                              title="<%= moment(review.createdAt).format('LLLL') %>">
-                              ----<%= moment(review.createdAt).fromNow() %>
-                            </p>
+            <!-- Right: Review List -->
+            <div class="grid grid-cols-1 gap-10">
+              <% listing.reviews.forEach(review=> { %>
+                <div>
+                  <div class="flex items-center gap-4 mb-3">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 overflow-hidden">
+                      <img src="https://api.dicebear.com/7.x/initials/svg?seed=<%= review.author?.username || 'User' %>"
+                        alt="User" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#222222]">
+                        <%= review.author?.username || 'Guest' %>
+                      </div>
+                      <div class="text-sm text-gray-500">
+                        <%= new Date(review.createdAt).toLocaleDateString(undefined, {month:'short', year:'numeric'}) %>
                       </div>
                     </div>
-                    <% if (curruser && review.author && curruser._id.toString()===review.author._id.toString()) { %>
-                      <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                        class="mt-2 md:mt-0">
-                        <button
-                          class="bg-zinc-500 text-white px-4 py-2 rounded-md hover:bg-zinc-600 w-full max-w-xs">Delete</button>
-                      </form>
+                  </div>
+                  <div class="text-[#222222] leading-relaxed">
+                    <%= review.comment %>
+                  </div>
+                  <% if(curruser && review.author && curruser._id.toString()===review.author._id.toString()) { %>
+                    <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                      class="mt-2 text-right">
+                      <button
+                        class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded hover:bg-red-100 transition-colors font-bold">Delete</button>
+                    </form>
+                    <% } %>
+                </div>
+                <% }) %>
 
-                      <% } %>
-                  </li>
-                  <% }) %>
-              </ul>
+                  <!-- Mobile Review Button -->
+                  <% if(curruser) { %>
+                    <div class="md:hidden mt-6">
+                      <button onclick="toggleModal(true)"
+                        class="w-full py-3 border border-black rounded-xl font-bold hover:bg-gray-50 transition-all text-sm">
+                        Write a review
+                      </button>
+                    </div>
+                    <% } %>
             </div>
+
+          </div>
+          <% } else { %>
+            <!-- Empty State -->
+            <div class="bg-gray-50 rounded-xl p-10 text-center">
+              <h3 class="font-bold text-lg mb-2">No reviews (yet)</h3>
+              <p class="text-gray-500 mb-6">This home hasn't received any reviews. Be the first to share your
+                experience!</p>
+              <% if(curruser) { %>
+                <button onclick="toggleModal(true)" class="text-[#FF385C] font-bold underline">Write a review</button>
+                <% } %>
             </div>
+            <% } %>
+      </div>
+    </div>
 
+    <!-- Review Modal (Hidden by default) -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="toggleModal(false)"></div>
+      <div class="absolute inset-x-0 bottom-0 md:inset-0 md:flex md:items-center md:justify-center pointer-events-none">
+        <div
+          class="bg-white w-full md:w-[500px] md:rounded-2xl shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh]">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white sticky top-0 z-10">
+            <button onclick="toggleModal(false)" class="p-2 hover:bg-gray-100 rounded-full transition-colors"><i
+                class="fas fa-times text-lg"></i></button>
+            <div class="font-bold text-lg">Rate Experience</div>
+            <div class="w-8"></div> <!-- Spacer -->
+          </div>
 
+          <div class="p-6 overflow-y-auto">
+            <form method="post" action="/listings/<%= listing._id %>/reviews" class="space-y-6">
+              <!-- Starability -->
+              <div class="text-center">
+                <label class="block text-sm font-bold text-gray-700 mb-2">How was your stay?</label>
+                <fieldset class="starability-slot mx-auto inline-block">
+                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                    aria-label="No rating." />
+                  <input type="radio" id="rate1" name="review[rating]" value="1" /><label for="rate1" title="Terrible">1
+                    star</label>
+                  <input type="radio" id="rate2" name="review[rating]" value="2" /><label for="rate2" title="Not good">2
+                    stars</label>
+                  <input type="radio" id="rate3" name="review[rating]" value="3" /><label for="rate3" title="Average">3
+                    stars</label>
+                  <input type="radio" id="rate4" name="review[rating]" value="4" /><label for="rate4"
+                    title="Very good">4 stars</label>
+                  <input type="radio" id="rate5" name="review[rating]" value="5" /><label for="rate5" title="Amazing">5
+                    stars</label>
+                </fieldset>
+              </div>
 
+              <div>
+                <label for="comment" class="block text-sm font-bold text-gray-700 mb-2">Describe your experience</label>
+                <textarea name="review[comment]" id="comment" rows="5"
+                  class="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none"
+                  placeholder="What did you love? What could be improved?" required></textarea>
+              </div>
 
+              <button
+                class="w-full bg-[#222222] hover:bg-black text-white font-bold py-3.5 rounded-xl text-lg transition-transform active:scale-[0.98]">
+                Post Review
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <script>
-              const maptoken = "<%= mapToken %>";
-               const coordinates = <%- JSON.stringify(listing.geometry?.coordinates || [77.209, 28.6139]) %>;
+    <!-- Scripts -->
+    <script>
+      // Map token and coordinates are now passed via data attributes on the #map element
 
-            </script>
-
-            <script src="/js/map.js"></script>
-            <script src="/js/map.js"></script>
+      function toggleModal(show) {
+        const m = document.getElementById('reviewModal');
+        if (show) {
+          m.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        } else {
+          m.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+    </script>
+    <script src="/js/map.js"></script>
   </body>

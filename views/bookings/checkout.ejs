@@ -1,102 +1,130 @@
 <% layout("./layouts/boilerplate.ejs") %>
 
-    <div class="max-w-6xl mx-auto px-6 py-12 font-primary">
-        <a href="/<%= listing._id %>"
-            class="inline-flex items-center gap-2 text-sm font-bold text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-full -ml-4 mb-8 transition-colors">
-            <i class="fas fa-chevron-left text-xs"></i>
-            <span>Back to listing</span>
-        </a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-[Outfit]">
+        <!-- Back Button -->
+        <div class="mb-8">
+            <a href="/listings/<%= listing._id %>"
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors">
+                <i class="fas fa-chevron-left text-sm text-gray-800"></i>
+            </a>
+            <h1 class="text-3xl font-extrabold text-[#222222] mt-4">Confirm and pay</h1>
+        </div>
 
-        <h1 class="text-3xl font-extrabold text-[#222222] mb-12">Confirm and pay</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-24">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <!-- Left Booking Details -->
+            <div class="lg:col-span-7 space-y-8">
+                <!-- Trip Details -->
+                <section>
+                    <h2 class="text-xl font-bold text-[#222222] mb-6">Your trip</h2>
 
-            <!-- Booking Details (Left) -->
-            <div>
-                <div class="mb-8">
-                    <h3 class="text-xl font-bold text-[#222222] mb-4">Your trip</h3>
-                    <div class="flex justify-between items-start mb-4">
+                    <div class="flex justify-between items-center mb-6">
                         <div>
-                            <p class="font-bold text-[#222222]">Dates</p>
-                            <p class="text-gray-600">
-                                <%= new Date(checkIn).toLocaleDateString() %> – <%= new
-                                        Date(checkOut).toLocaleDateString() %>
+                            <h3 class="font-bold text-[#222222] mb-1">Dates</h3>
+                            <p class="text-gray-600 font-medium">
+                                <%= new Date(checkIn).toLocaleDateString('en-US', { month: 'short' , day: 'numeric' })
+                                    %> – <%= new Date(checkOut).toLocaleDateString('en-US', { month: 'short' ,
+                                        day: 'numeric' }) %>
                             </p>
                         </div>
+                        <button class="font-bold underline text-gray-800 hover:text-black">Edit</button>
                     </div>
-                    <div class="flex justify-between items-start">
+
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="font-bold text-[#222222]">Guests</p>
-                            <p class="text-gray-600">
+                            <h3 class="font-bold text-[#222222] mb-1">Guests</h3>
+                            <p class="text-gray-600 font-medium">
                                 <%= guests %> guest<%= guests> 1 ? 's' : '' %>
                             </p>
                         </div>
+                        <button class="font-bold underline text-gray-800 hover:text-black">Edit</button>
                     </div>
-                </div>
+                </section>
 
-                <hr class="border-gray-200 my-8">
+                <hr class="border-gray-200">
 
-                <div class="mb-8">
-                    <h3 class="text-xl font-bold text-[#222222] mb-4">Pay with</h3>
-                    <div class="border border-gray-300 rounded-xl overflow-hidden">
-                        <div class="p-4 border-b border-gray-300 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fab fa-cc-visa text-2xl text-[#1434CB]"></i>
-                                <span class="font-medium">Visa ending in 1234</span>
+                <!-- Payment - Simplified -->
+                <section>
+                    <h2 class="text-xl font-bold text-[#222222] mb-6">Pay with</h2>
+
+                    <div
+                        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl mb-4 group cursor-pointer hover:border-gray-900 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center border border-gray-200">
+                                <i class="fab fa-cc-visa text-[#1434CB]"></i>
                             </div>
-                            <i class="fas fa-check-circle text-black text-xl"></i>
+                            <span class="font-medium text-gray-800">Visa ending in 1234</span>
                         </div>
-                        <!-- Fake Inputs -->
-                        <div class="p-4 bg-gray-50 flex flex-col gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Card number</label>
-                                <input type="text" placeholder="0000 0000 0000 0000"
-                                    class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="flex-1">
-                                    <label
-                                        class="block text-xs font-bold text-gray-500 uppercase mb-1">Expiration</label>
-                                    <input type="text" placeholder="MM / YY"
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
-                                </div>
-                                <div class="flex-1">
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">CVV</label>
-                                    <input type="text" placeholder="123"
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none">
-                                </div>
-                            </div>
-                        </div>
+                        <i class="fas fa-chevron-down text-xs text-gray-800"></i>
                     </div>
-                </div>
 
-                <form action="/<%= listing._id %>/book" method="POST">
+                    <div
+                        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-gray-900 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center border border-gray-200">
+                                <i class="fas fa-money-bill-wave text-green-600"></i>
+                            </div>
+                            <span class="font-medium text-gray-800">Pay with Cash</span>
+                        </div>
+                        <div class="w-5 h-5 rounded-full border border-gray-300"></div>
+                    </div>
+
+                </section>
+
+                <hr class="border-gray-200">
+
+                <section>
+                    <h2 class="text-xl font-bold text-[#222222] mb-6">Ground rules</h2>
+                    <p class="text-gray-600 mb-4">We ask guests to remember a few simple things about what makes a great
+                        guest.</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600 mb-8">
+                        <li>Follow the house rules</li>
+                        <li>Treat the Host's home like your own</li>
+                    </ul>
+                </section>
+
+                <hr class="border-gray-200">
+
+                <form action="/listings/<%= listing._id %>/book" method="POST" class="pt-4">
                     <!-- Hidden Inputs to Pass Data -->
                     <input type="hidden" name="booking[checkIn]" value="<%= checkIn %>">
                     <input type="hidden" name="booking[checkOut]" value="<%= checkOut %>">
                     <input type="hidden" name="booking[guests]" value="<%= guests %>">
 
+                    <p class="text-xs text-gray-500 mb-6">
+                        By selecting the button below, I agree to the Host's House Rules, Ground rules for guests, and
+                        Airbnb's Rebooking and Refund Policy.
+                    </p>
+
                     <button type="submit"
-                        class="w-full bg-[#FA2D55] text-white text-lg font-bold py-4 rounded-xl hover:bg-[#D92348] transition-all shadow-lg hover:shadow-xl transform active:scale-[0.99]">
+                        class="w-full bg-gradient-to-r from-[#FF385C] to-[#E61E4D] hover:from-[#E61E4D] hover:to-[#D41245] text-white text-lg font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99]">
                         Confirm and pay
                     </button>
                 </form>
-
             </div>
 
-            <!-- Price Details (Right / Sticky) -->
-            <div class="lg:pl-10">
-                <div class="border border-gray-200 rounded-2xl p-6 shadow-lg sticky top-28 bg-white">
+            <!-- Right Price Card Sticky -->
+            <div class="hidden lg:block lg:col-span-5">
+                <div class="sticky top-28 bg-white border border-gray-200 rounded-2xl p-6 shadow-xl shadow-gray-100/50">
                     <div class="flex gap-4 mb-6">
-                        <img src="<%= listing.image.url %>" class="w-28 h-24 object-cover rounded-xl bg-gray-200">
-                        <div>
-                            <p class="text-xs text-gray-500 mb-1">Entire home</p>
-                            <h4 class="font-bold text-[#222222] text-sm leading-tight mb-1">
+                        <img src="<%= listing.image.url %>"
+                            class="w-28 h-28 object-cover rounded-xl bg-gray-100 shadow-sm border border-gray-100">
+                        <div class="flex flex-col justify-center">
+                            <p class="text-xs text-gray-500 text-medium mb-1">
+                                <%= listing.type || 'Entire home' %>
+                            </p>
+                            <h4 class="font-bold text-[#222222] text-sm leading-snug mb-2 line-clamp-2">
                                 <%= listing.name %>
                             </h4>
                             <div class="flex items-center gap-1 text-xs text-gray-800">
-                                <i class="fas fa-star text-[10px]"></i>
+                                <i class="fas fa-star text-[10px] text-black"></i>
                                 <span class="font-bold">New</span>
+                                <span class="text-gray-400 mx-1">•</span>
+                                <span class="text-gray-500 underline cursor-pointer">
+                                    <%= listing.reviews.length %> reviews
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -104,17 +132,18 @@
                     <hr class="border-gray-200 mb-6">
 
                     <h3 class="text-xl font-bold text-[#222222] mb-4">Price details</h3>
-                    <div class="space-y-3 text-gray-600">
+                    <div class="space-y-4 text-gray-600">
                         <div class="flex justify-between">
-                            <span>₹<%= listing.price.toLocaleString("en-IN") %> x <%= nights %> nights</span>
+                            <span class="underline decoration-gray-300">₹<%= listing.price.toLocaleString("en-IN") %> x
+                                    <%= nights %> nights</span>
                             <span>₹<%= basePrice.toLocaleString("en-IN") %></span>
                         </div>
                         <div class="flex justify-between">
-                            <span>Cleaning fee</span>
+                            <span class="underline decoration-gray-300">Cleaning fee</span>
                             <span>₹1,500</span>
                         </div>
                         <div class="flex justify-between">
-                            <span>Service fee</span>
+                            <span class="underline decoration-gray-300">Service fee</span>
                             <span>₹850</span>
                         </div>
                     </div>

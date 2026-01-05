@@ -2,11 +2,6 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 
-// Specific redirect for legacy /listings path
-router.get("/listings", (req, res) => {
-    res.redirect("/");
-});
-
 const listingController = require("../controllers/listings.js");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 // Lazy load multer implementation

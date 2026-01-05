@@ -28,7 +28,7 @@ module.exports.renderLoginForm = (req, res) => {
 
 module.exports.login = async (req, res) => {
     req.flash('success', 'Welcome back!');
-    res.redirect(res.locals.returnTo || "/");
+    res.redirect(res.locals.returnTo || "/listings");
 };
 
 module.exports.logout = (req, res, next) => {

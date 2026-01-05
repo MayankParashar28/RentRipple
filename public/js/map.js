@@ -1,122 +1,49 @@
-// Ensure coordinates are defined from EJS before using this script
-if (typeof coordinates === 'undefined') {
-    console.error("Mapbox Error: coordinates is not defined.");
-} else {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFoaXIyOCIsImEiOiJjbHo1dHl4YTkzdTJ4MmtxczNiMnh5ZmRwIn0.vw2lN4zHIjvMiUQuM5iOqA';
+const mapElement = document.getElementById('map');
+if (mapElement) {
+    const mapToken = mapElement.getAttribute('data-map-token');
+    let coordinates = JSON.parse(mapElement.getAttribute('data-coordinates'));
+
+    // Validate coordinates, fallback to Delhi if invalid
+    if (!Array.isArray(coordinates) || coordinates.length !== 2 || typeof coordinates[0] !== 'number' || typeof coordinates[1] !== 'number') {
+        console.warn("Invalid coordinates detected, falling back to default.");
+        coordinates = [77.209, 28.6139];
+    }
+
+    mapboxgl.accessToken = mapToken;
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         center: coordinates, // starting position [lng, lat]
         zoom: 15.1, // starting zoom
-        pitch: 62, // starting pitch
-        bearing: -20, // starting bearing
+        pitch: 0, // flat view
+        bearing: 0, // facing north
         style: 'mapbox://styles/mapbox/standard' // style URL
     });
 
-    map.on('style.load', () => {
-        map.addSource('line', {
-            type: 'geojson',
-            lineMetrics: true,
-            data: {
-                type: 'LineString',
-                coordinates: [
-                    [2.293389857555951, 48.85896319631851],
-                    [2.2890810326441624, 48.86174223718291]
-                ]
-            }
-        });
+    // Create a custom DOM element for the marker
+    const el = document.createElement('div');
+    el.className = 'custom-marker';
+    el.innerHTML = '<div style="background-color: #FF385C; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid white;"><i class="fas fa-home" style="font-size: 18px;"></i></div>';
 
-        map.addLayer({
-            id: 'line',
-            source: 'line',
-            type: 'line',
-            paint: {
-                'line-width': 12,
-                // The `*-emissive-strength` properties control the intensity of light emitted on the source features.
-                // To enhance the visibility of a line in darker light presets, increase the value of `line-emissive-strength`.
-                'line-emissive-strength': 0.8,
-                'line-gradient': [
-                    'interpolate',
-                    ['linear'],
-                    ['line-progress'],
-                    0,
-                    'red',
-                    1,
-                    'blue'
-                ]
-            }
-        });
+    // Add marker to map
+    new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+        .setLngLat(coordinates)
+        .setPopup(
+            new mapboxgl.Popup({ offset: 25 })
+                .setHTML(
+                    `<h4 style="font-weight: bold; margin: 0;">Exact Location</h4><p style="margin: 5px 0 0;">Will be shared after booking</p>`
+                )
+        )
+        .addTo(map);
 
-        // Add 3D buildings from Mapbox's building layer
-        const layers = map.getStyle().layers;
-        const labelLayerId = layers.find(
-          (layer) => layer.type === 'symbol' && layer.layout['text-field']
-        )?.id;
+    // Add navigation controls
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
-        map.addLayer(
-          {
-            id: '3d-buildings',
-            source: 'composite',
-            'source-layer': 'building',
-            filter: ['==', 'extrude', 'true'],
-            type: 'fill-extrusion',
-            minzoom: 15,
-            paint: {
-              'fill-extrusion-color': '#aaa',
-              'fill-extrusion-height': ['get', 'height'],
-              'fill-extrusion-base': ['get', 'min_height'],
-              'fill-extrusion-opacity': 0.6
-            }
-          },
-          labelLayerId
-        );
-
-        // --- User location & route planning using geolocation ---
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const userLocation = [position.coords.longitude, position.coords.latitude];
-
-                // Add user location marker
-                new mapboxgl.Marker({ color: 'blue' })
-                    .setLngLat(userLocation)
-                    .setPopup(new mapboxgl.Popup().setText("Your Location"))
-                    .addTo(map);
-
-                // Add route from user location to destination (listing)
-                map.addSource('route', {
-                    type: 'geojson',
-                    data: {
-                        type: 'Feature',
-                        geometry: {
-                            type: 'LineString',
-                            coordinates: [userLocation, coordinates]
-                        }
-                    }
-                });
-
-                map.addLayer({
-                    id: 'route-layer',
-                    type: 'line',
-                    source: 'route',
-                    layout: {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    paint: {
-                        'line-color': '#3b82f6',
-                        'line-width': 6
-                    }
-                });
-            }, () => {
-                console.warn("Geolocation permission denied or unavailable.");
-            });
-        }
-    });
-
-    document
-        .getElementById('lightPreset')
-        .addEventListener('change', function () {
+    const lightPresetInput = document.getElementById('lightPreset');
+    if (lightPresetInput) {
+        lightPresetInput.addEventListener('change', function () {
             map.setConfigProperty('basemap', 'lightPreset', this.value);
         });
+    }
 
     document
         .querySelectorAll('.map-overlay-inner input[type="checkbox"]')
@@ -150,17 +77,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const lightPreset = document.getElementById('lightPreset');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-    // Add preset indicator to select options
-    lightPreset.addEventListener('change', function () {
-        const selectedValue = this.value;
-        // console.log('Light preset changed to:', selectedValue);
+    if (lightPreset) {
+        // Add preset indicator to select options
+        lightPreset.addEventListener('change', function () {
+            const selectedValue = this.value;
+            // console.log('Light preset changed to:', selectedValue);
 
-        // Add visual feedback
-        this.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 150);
-    });
+            // Add visual feedback
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    }
 
     // Enhanced checkbox interactions
     checkboxes.forEach(checkbox => {

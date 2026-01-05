@@ -7,18 +7,18 @@
 
                 <!-- LEFT: Brand / Logo Area -->
                 <div class="flex-shrink-0 flex items-center h-full">
-                    <a href="/"
-                        class="flex items-center gap-2 group text-decoration-none focus:outline-none rounded-xl focus:ring-2 focus:ring-gray-200">
-                        <div
-                            class="text-[#FF385C] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                class="w-10 h-10 fill-current">
-                                <path
-                                    d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z" />
-                            </svg>
+                    <a href="/" class="flex items-center gap-2 group transition-all duration-300">
+                        <div class="relative">
+                            <i
+                                class="fas fa-paper-plane text-3xl text-[#FF385C] transform group-hover:-translate-y-1 group-hover:rotate-12 transition-transform duration-300 drop-shadow-sm"></i>
+                            <div
+                                class="absolute -bottom-1 -right-1 w-2 h-2 bg-black rounded-full animate-ping opacity-75">
+                            </div>
                         </div>
                         <span
-                            class="font-bold text-xl tracking-tight text-[#FF385C] hidden md:block group-hover:text-[#E61E4D] transition-colors font-[Outfit]">RentRipple</span>
+                            class="text-2xl font-[800] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#FF385C] to-[#E00B41] group-hover:from-black group-hover:to-gray-800 transition-all font-[Outfit]">
+                            RentRipple
+                        </span>
                     </a>
                 </div>
 
@@ -100,11 +100,11 @@
         class="hidden absolute top-24 right-0 w-64 rounded-2xl bg-white/80 backdrop-blur-2xl border border-white/40 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden z-[60] transform origin-top-right transition-all duration-300 opacity-0 scale-95 ring-1 ring-black/5 m-2">
         <% if(!curruser) { %>
             <div class="p-2">
-                <a href="/users/login"
+                <a href="/login"
                     class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
                     Log in
                 </a>
-                <a href="/users/signup"
+                <a href="/signup"
                     class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
                     Sign up
                 </a>
@@ -145,11 +145,11 @@
             </a>
             <div class="h-px bg-gray-100 my-2 mx-4"></div>
             <% if(!curruser) { %>
-                <a href="/users/login"
-                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">Log
+                <a href="/login"
+                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium text-sm">Log
                     in</a>
-                <a href="/users/signup"
-                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">Sign
+                <a href="/signup"
+                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium text-sm">Sign
                     up</a>
                 <% } else { %>
                     <a href="/logout"
@@ -203,5 +203,50 @@
 
         dropdown.addEventListener('click', (e) => e.stopPropagation());
         mobileMenu.addEventListener('click', (e) => e.stopPropagation());
+
+        // Search Autocomplete Logic
+        const searchInput = document.getElementById('search-input');
+        const suggestionsBox = document.getElementById('search-suggestions');
+
+        if (searchInput) {
+            let debounceTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimeout);
+                const q = e.target.value;
+
+                if (q.length < 2) {
+                    suggestionsBox.classList.add('hidden');
+                    return;
+                }
+
+                debounceTimeout = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`/listings/search/suggestions?q=${q}`);
+                        const data = await res.json();
+
+                        if (data.length > 0) {
+                            suggestionsBox.innerHTML = data.map(item => `
+                                <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 group border-b border-gray-50 last:border-none" 
+                                     onclick="window.location.href='/listings?search=${encodeURIComponent(item)}'">
+                                    <i class="fas fa-search text-gray-400 group-hover:text-[#FF385C]"></i>
+                                    <span class="text-sm font-medium text-gray-700">${item}</span>
+                                </div>
+                            `).join('');
+                            suggestionsBox.classList.remove('hidden');
+                        } else {
+                            suggestionsBox.classList.add('hidden');
+                        }
+                    } catch (err) {
+                        console.error("Autocomplete error:", err);
+                    }
+                }, 300);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                    suggestionsBox.classList.add('hidden');
+                }
+            });
+        }
     </script>
 </nav>

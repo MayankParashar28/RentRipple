@@ -1,248 +1,85 @@
 <% layout("./layouts/boilerplate.ejs") %>
-<style>
-       
-
-        .signup-container {
-           
-            border-radius: 12px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-            padding: 48px;
-            width: 100%;
-            max-width: 568px;
-            border: 1px solid #dddddd;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .signup-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .signup-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: #222222;
-            margin-bottom: 8px;
-        }
-
-        .signup-subtitle {
-            font-size: 16px;
-            color: #717171;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #222222;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #b0b0b0;
-            border-radius: 8px;
-            font-size: 16px;
-            color: #222222;
-            background-color: white;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #222222;
-            box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
-        }
-
-        .form-input:hover {
-            border-color: #717171;
-        }
-
-        .form-help {
-            font-size: 12px;
-            color: #717171;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
-            margin-top: 16px;
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-        }
-
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-
-        .divider {
-            margin: 24px 0;
-            text-align: center;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: #dddddd;
-        }
-
-        .divider-text {
-            background-color: white;
-            padding: 0 16px;
-            color: #717171;
-            font-size: 12px;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 14px;
-            color: #717171;
-        }
-
-        .login-link a {
-            color: #222222;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 568px) {
-            .signup-container {
-                padding: 24px;
-                margin: 0;
-                border-radius: 0;
-                box-shadow: none;
-                border: none;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            body {
-                padding: 0;
-                background-color: white;
-            }
-        }
-
-        /* Form validation styles */
-        .form-input:invalid {
-            border-color: #c13515;
-        }
-
-        .form-input:invalid:focus {
-            border-color: #c13515;
-            box-shadow: 0 0 0 2px rgba(193, 53, 21, 0.1);
-        }
-    </style>
-   <div class="signup-container">
-        <div class="signup-header">
-            <h1 class="signup-title">Welcome to Airbnb</h1>
-            <p class="signup-subtitle">Create your account to get started</p>
-        </div>
-
-        <form action="/signup" method="post" novalidate>
-            <div class="form-group">
-                <label for="username" class="form-label">Username</label>
-                <input 
-                    type="text" 
-                    class="form-input" 
-                    id="username" 
-                    name="username"
-                    placeholder="Enter your username"
-                    required>
-                <div class="form-help">Choose a unique username to identify your account.</div>
-            </div>
-
-            <div class="form-group">
-                <label for="email" class="form-label">Email Address</label>
-                <input 
-                    type="email" 
-                    class="form-input" 
-                    id="email" 
-                    name="email"
-                    placeholder="Enter your email address"
-                    required>
-                <div class="form-help">We'll never share your email with anyone else.</div>
-            </div>
-
-            <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <input 
-                    type="password"  
-                    id="password" 
-                    class="form-input" 
-                    name="password"
-                    placeholder="Create a password"
-                    required>
-                <div class="form-help">
-                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    <div class="min-h-screen flex text-gray-900">
+        <!-- Left Side - Image/Branding (Hidden on mobile) -->
+        <div class="hidden lg:flex lg:w-1/2 relative bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop"
+                alt="Luxury Home" class="absolute inset-0 w-full h-full object-cover opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+            <div class="relative z-10 w-full flex flex-col justify-between p-12 text-white">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-paper-plane text-3xl text-[#FF385C]"></i>
+                        <span class="text-3xl font-[800] tracking-tight font-[Outfit]">RentRipple</span>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold mb-4 leading-tight">Start your journey today.</h2>
+                    <p class="text-lg text-white/90">Create an account to save your favorite homes and book your dream
+                        vacation.</p>
                 </div>
             </div>
-
-            <button type="submit" class="submit-btn">Continue</button>
-        </form>
-
-        <div class="divider">
-            <span class="divider-text">or</span>
         </div>
 
-        <div class="login-link">
-            Already have an account? <a href="/users/login">Log in</a>
+        <!-- Right Side - Form -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+            <div class="w-full max-w-md space-y-8">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-2 font-[Outfit]">Create an account</h1>
+                    <p class="text-gray-500">Enter your details to get started.</p>
+                </div>
+
+                <form action="/signup" method="post" class="space-y-5" novalidate>
+                    <div class="space-y-2">
+                        <label for="username" class="block text-sm font-bold text-gray-700">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Choose a username" required
+                            class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all duration-200">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-bold text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required
+                            class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all duration-200">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-bold text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required
+                            class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all duration-200">
+                        <p class="text-xs text-gray-400 font-medium pt-1">Must be at least 8 characters.</p>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-[#E51D53] hover:bg-[#D41245] text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99] text-base mt-2">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-100"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-white px-4 text-gray-400 font-bold tracking-wider">or sign up with</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button
+                        class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors font-medium text-sm text-gray-700">
+                        <i class="fab fa-google text-lg"></i> Google
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors font-medium text-sm text-gray-700">
+                        <i class="fab fa-facebook text-lg text-[#1877F2]"></i> Facebook
+                    </button>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-sm text-gray-500">
+                        Already have an account?
+                        <a href="/login" class="text-[#FF385C] hover:text-[#E00B41] font-bold ml-1">Log in</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-  
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
-    </script>
-    

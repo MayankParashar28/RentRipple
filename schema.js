@@ -13,6 +13,7 @@ module.exports.listingSchema = Joi.object({
             filename: Joi.string().allow("", null).default("")
         }),
         type: Joi.string().allow("", null),
+        category: Joi.string().allow("", null),
         guests: Joi.number().min(1).default(1),
         bedrooms: Joi.number().min(0).default(1),
         bathrooms: Joi.number().min(0).default(1),
