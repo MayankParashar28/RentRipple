@@ -1,6 +1,6 @@
 <% layout("./layouts/boilerplate.ejs") %>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-[Outfit]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Back Button -->
         <div class="mb-8">
             <a href="/listings/<%= listing._id %>"
@@ -44,33 +44,15 @@
                 <hr class="border-gray-200">
 
                 <!-- Payment - Simplified -->
+                <!-- Stripe Payment Element -->
                 <section>
                     <h2 class="text-xl font-bold text-[#222222] mb-6">Pay with</h2>
 
-                    <div
-                        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl mb-4 group cursor-pointer hover:border-gray-900 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center border border-gray-200">
-                                <i class="fab fa-cc-visa text-[#1434CB]"></i>
-                            </div>
-                            <span class="font-medium text-gray-800">Visa ending in 1234</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-800"></i>
+                    <!-- Stripe Elements Placeholder -->
+                    <div id="payment-element">
+                        <!-- Stripe.js injects the Payment Element here -->
                     </div>
-
-                    <div
-                        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-gray-900 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-6 bg-gray-100 rounded flex items-center justify-center border border-gray-200">
-                                <i class="fas fa-money-bill-wave text-green-600"></i>
-                            </div>
-                            <span class="font-medium text-gray-800">Pay with Cash</span>
-                        </div>
-                        <div class="w-5 h-5 rounded-full border border-gray-300"></div>
-                    </div>
-
+                    <div id="payment-message" class="hidden mt-4 text-red-500 text-sm"></div>
                 </section>
 
                 <hr class="border-gray-200">
@@ -87,22 +69,103 @@
 
                 <hr class="border-gray-200">
 
-                <form action="/listings/<%= listing._id %>/book" method="POST" class="pt-4">
+                <form id="payment-form" action="/listings/<%= listing._id %>/book" method="POST" class="pt-4">
                     <!-- Hidden Inputs to Pass Data -->
                     <input type="hidden" name="booking[checkIn]" value="<%= checkIn %>">
                     <input type="hidden" name="booking[checkOut]" value="<%= checkOut %>">
                     <input type="hidden" name="booking[guests]" value="<%= guests %>">
+                    <input type="hidden" id="payment-intent-id" name="paymentIntentId">
 
                     <p class="text-xs text-gray-500 mb-6">
                         By selecting the button below, I agree to the Host's House Rules, Ground rules for guests, and
                         Airbnb's Rebooking and Refund Policy.
                     </p>
 
-                    <button type="submit"
-                        class="w-full bg-gradient-to-r from-[#FF385C] to-[#E61E4D] hover:from-[#E61E4D] hover:to-[#D41245] text-white text-lg font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99]">
-                        Confirm and pay
+                    <button id="submit" type="submit"
+                        class="w-full bg-[#FF385C] hover:bg-[#D90B3E] text-white text-lg font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="button-text">Confirm and pay</span>
+                        <div id="spinner"
+                            class="hidden inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ml-2">
+                        </div>
                     </button>
+
                 </form>
+
+                <!-- Stripe Logic -->
+                <script src="https://js.stripe.com/v3/"></script>
+                <script>
+                    const stripe = Stripe('<%= stripePublishableKey %>');
+                    const clientSecret = '<%= clientSecret %>';
+
+                    const options = {
+                        clientSecret: clientSecret,
+                        appearance: {
+                            theme: 'stripe',
+                            variables: {
+                                colorPrimary: '#FF385C',
+                            },
+                        },
+                    };
+
+                    // Set up Stripe.js and Elements to use in checkout form
+                    const elements = stripe.elements(options);
+
+                    // Create and mount the Payment Element
+                    const paymentElement = elements.create('payment');
+                    paymentElement.mount('#payment-element');
+
+                    const form = document.getElementById('payment-form');
+
+                    form.addEventListener('submit', async (event) => {
+                        event.preventDefault();
+                        setLoading(true);
+
+                        const { error, paymentIntent } = await stripe.confirmPayment({
+                            elements,
+                            confirmParams: {
+                                // Return URL where the customer should be redirected after the payment process.
+                                // Since we want to stay on the page to submit the form (if successful), or redirect back here.
+                                // However, keeping it simple: let's try to confirm without redirect if possible (redirect: "if_required").
+                                // But implementing proper redirect usually requires a return_url.
+                                // Strategy: Use redirect: 'if_required' to handle success in JS.
+                                return_url: window.location.href, // Fallback
+                            },
+                            redirect: "if_required"
+                        });
+
+                        if (error) {
+                            // This point will only be reached if there is an immediate error when
+                            // confirming the payment. Show error to your customer (e.g., payment
+                            // details incomplete)
+                            const messageContainer = document.querySelector('#payment-message');
+                            messageContainer.textContent = error.message;
+                            messageContainer.classList.remove('hidden');
+                            setLoading(false);
+                        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                            // Payment succeeded!
+                            // Populate the hidden input with the PaymentIntent ID
+                            document.getElementById('payment-intent-id').value = paymentIntent.id;
+                            // Submit the form to the backend to create the booking
+                            form.submit();
+                        } else {
+                            console.log("Unexpected status:", paymentIntent);
+                            setLoading(false);
+                        }
+                    });
+
+                    function setLoading(isLoading) {
+                        if (isLoading) {
+                            // Disable the button and show a spinner
+                            document.querySelector("#submit").disabled = true;
+                            document.querySelector("#spinner").classList.remove("hidden");
+                            document.querySelector("#button-text").classList.add("hidden");
+                        } else {
+                            document.querySelector("#submit").disabled = false;
+                            document.querySelector("#spinner").classList.add("hidden");
+                            document.querySelector("#button-text").classList.remove("hidden");
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Right Price Card Sticky -->

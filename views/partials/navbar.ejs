@@ -1,7 +1,8 @@
 <!-- Premium Light Glass Navbar -->
-<nav class="sticky top-0 z-50 w-full">
+<nav class="sticky top-0 z-50 w-full font-sans">
     <!-- Full Width Container -->
-    <div class="w-full bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-500">
+    <div
+        class="w-full bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm transition-all duration-500 support-backdrop-blur:bg-white/60">
         <div class="w-full">
             <div class="flex justify-between items-center h-20 px-4 lg:px-8">
 
@@ -9,14 +10,15 @@
                 <div class="flex-shrink-0 flex items-center h-full">
                     <a href="/" class="flex items-center gap-2 group transition-all duration-300">
                         <div class="relative">
-                            <i
-                                class="fas fa-paper-plane text-3xl text-[#FF385C] transform group-hover:-translate-y-1 group-hover:rotate-12 transition-transform duration-300 drop-shadow-sm"></i>
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z' fill='%23FF385C'/%3E%3C/svg%3E"
+                                class="w-9 h-9 transform group-hover:-translate-y-1 group-hover:rotate-12 transition-transform duration-300 drop-shadow-sm"
+                                alt="RentRipple Logo">
                             <div
                                 class="absolute -bottom-1 -right-1 w-2 h-2 bg-black rounded-full animate-ping opacity-75">
                             </div>
                         </div>
                         <span
-                            class="text-2xl font-[800] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#FF385C] to-[#E00B41] group-hover:from-black group-hover:to-gray-800 transition-all font-[Outfit]">
+                            class="text-2xl font-[800] tracking-tight text-[#FF385C] group-hover:text-black transition-colors duration-300">
                             RentRipple
                         </span>
                     </a>
@@ -24,40 +26,41 @@
 
                 <!-- CENTER: Premium Search Bar -->
                 <div class="hidden md:flex flex-1 justify-center items-center h-full px-6">
-                    <div class="group relative w-full max-w-xl">
+                    <div
+                        class="group relative w-full max-w-md lg:max-w-lg transition-all duration-300 focus-within:max-w-xl">
                         <!-- Search Container -->
-                        <form action="/" method="GET" class="relative">
+                        <form action="/" method="GET" class="relative z-10">
                             <div
-                                class="flex items-center w-full h-12 bg-white/80 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 px-3 gap-3 hover:border-gray-300 focus-within:ring-2 focus-within:ring-gray-100 focus-within:border-gray-300">
+                                class="flex items-center w-full h-12 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 px-4 gap-3 ring-1 ring-transparent focus-within:ring-gray-200 focus-within:shadow-lg">
 
                                 <!-- Search Icon -->
                                 <i
-                                    class="fas fa-search text-gray-400 group-hover:text-[#FF385C] transition-colors duration-300"></i>
+                                    class="fas fa-search text-gray-400 group-focus-within:text-[#FF385C] transition-colors duration-300"></i>
 
                                 <!-- Input -->
                                 <input type="text" name="search" id="search-input" autocomplete="off"
                                     value="<%= (typeof search !== 'undefined') ? search : '' %>"
-                                    class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-medium text-gray-700 placeholder-gray-400 leading-normal px-2 h-full rounded-full"
+                                    class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-semibold text-gray-700 placeholder-gray-400 leading-normal px-1 h-full rounded-full w-full"
                                     placeholder="Search destinations...">
                             </div>
                             <!-- Autocomplete Dropdown -->
                             <div id="search-suggestions"
-                                class="absolute top-14 left-0 right-0 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[100] hidden">
+                                class="absolute top-16 left-0 right-0 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden hidden transform origin-top transition-all duration-200 opacity-0 scale-95">
                             </div>
                         </form>
                     </div>
                 </div>
 
                 <!-- RIGHT: Actions -->
-                <div class="hidden md:flex items-center h-full gap-4 flex-none justify-end">
+                <div class="hidden md:flex items-center h-full gap-2 lg:gap-4 flex-none justify-end">
 
                     <div class="flex items-center gap-1 h-10">
                         <a href="/listings"
-                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 hover:shadow-sm rounded-full transition-all duration-300 text-decoration-none border border-transparent hover:border-gray-200/50 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200 text-decoration-none">
                             Explore
                         </a>
                         <a href="/listings/new"
-                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 hover:shadow-sm rounded-full transition-all duration-300 text-decoration-none border border-transparent hover:border-gray-200/50 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            class="h-full flex items-center px-4 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200 text-decoration-none">
                             Rent home
                         </a>
                     </div>
@@ -65,29 +68,27 @@
                     <!-- User Menu -->
                     <div class="relative h-12 flex items-center" id="user-menu-btn">
                         <button
-                            class="flex items-center gap-2.5 bg-white border border-gray-200 hover:border-gray-300 hover:shadow-lg rounded-full p-1.5 pl-3 transition-all duration-300 group hover:-translate-y-0.5 h-10">
-                            <i
-                                class="fas fa-bars text-gray-400 group-hover:text-gray-600 transition-colors text-sm"></i>
+                            class="flex items-center gap-3 bg-white border border-gray-200 hover:shadow-md rounded-full p-1.5 pl-3.5 transition-all duration-300 group hover:border-gray-300 active:scale-95 h-10">
+                            <i class="fas fa-bars text-gray-500 group-hover:text-black transition-colors text-sm"></i>
                             <div
-                                class="h-8 w-8 rounded-full bg-gradient-to-tr from-gray-800 to-gray-900 text-white flex items-center justify-center shadow-lg shadow-gray-200 overflow-hidden ring-2 ring-white">
+                                class="h-8 w-8 rounded-full bg-gray-500 text-white flex items-center justify-center overflow-hidden ring-2 ring-white">
                                 <% if(curruser) { %>
-                                    <span class="text-xs font-bold text-white/90">
+                                    <span class="text-xs font-bold text-white">
                                         <%= curruser.username[0].toUpperCase() %>
                                     </span>
                                     <% } else { %>
-                                        <i class="fas fa-user text-xs"></i>
+                                        <i class="fas fa-user text-xs text-white"></i>
                                         <% } %>
                             </div>
                         </button>
                     </div>
-
                 </div>
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center ">
                     <button id="mobile-menu-btn"
-                        class="p-2.5 bg-white rounded-xl shadow-sm border border-gray-100 text-gray-600 active:scale-95 transition-all">
-                        <i class="fas fa-bars text-lg"></i>
+                        class="w-10 h-10 flex items-center justify-center bg-white rounded-full border border-gray-200 text-gray-600 active:scale-90 transition-all hover:bg-gray-50">
+                        <i class="fas fa-bars text-sm"></i>
                     </button>
                 </div>
 
@@ -97,156 +98,223 @@
 
     <!-- Dropdown Menu -->
     <div id="user-dropdown"
-        class="hidden absolute top-24 right-0 w-64 rounded-2xl bg-white/80 backdrop-blur-2xl border border-white/40 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden z-[60] transform origin-top-right transition-all duration-300 opacity-0 scale-95 ring-1 ring-black/5 m-2">
+        class="hidden absolute top-20 right-4 lg:right-8 w-64 rounded-2xl bg-white border border-gray-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] overflow-hidden z-[60] transform origin-top-right transition-all duration-200 opacity-0 scale-95 ring-1 ring-black/5">
         <% if(!curruser) { %>
-            <div class="p-2">
+            <div class="py-2">
                 <a href="/login"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors text-decoration-none">
                     Log in
                 </a>
                 <a href="/signup"
-                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/80 hover:shadow-sm rounded-xl transition-all text-decoration-none">
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors text-decoration-none">
                     Sign up
                 </a>
             </div>
             <% } else { %>
-                <div class="p-2 border-b border-gray-100/50">
-                    <span class="px-4 py-1 text-[10px] uppercase font-bold text-gray-400 tracking-wider">Account</span>
+                <div class="py-2 border-b border-gray-100">
+                    <span
+                        class="px-4 py-2 block text-xs font-bold text-gray-400 uppercase tracking-wider">Account</span>
                     <a href="#"
-                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Messages</a>
-                    <a href="#"
-                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Trips</a>
-                    <a href="#"
-                        class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-white/80 rounded-xl transition-all text-decoration-none">Wishlists</a>
+                        class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors text-decoration-none">Messages</a>
+                    <a href="/bookings/host"
+                        class="block px-4 py-3 text-sm font-bold text-[#FF385C] hover:bg-red-50/50 transition-colors text-decoration-none">Host
+                        Dashboard</a>
+                    <a href="/bookings"
+                        class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors text-decoration-none">My
+                        Trips</a>
+                    <a href="/wishlist"
+                        class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors text-decoration-none">Wishlists</a>
                 </div>
-                <div class="p-2">
+                <div class="py-2">
                     <a href="/logout"
-                        class="block px-4 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition-all text-decoration-none">Log
+                        class="block px-4 py-3 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 transition-colors text-decoration-none">Log
                         out</a>
                 </div>
                 <% } %>
     </div>
 
-    <!-- Mobile Overlay -->
-    <div id="mobile-menu"
-        class="hidden absolute top-24 left-2 right-2 bg-white/95 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl z-50 p-4 md:hidden ring-1 ring-black/5">
-        <div class="flex flex-col gap-1">
-            <a href="/listings"
-                class="flex items-center gap-4 px-5 py-4 text-gray-800 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">
-                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"><i
-                        class="fas fa-compass text-sm"></i></div>
-                Explore
-            </a>
-            <a href="/listings/new"
-                class="flex items-center gap-4 px-5 py-4 text-gray-800 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium">
-                <div class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF385C]"><i
-                        class="fas fa-home text-sm"></i></div>
-                Rent home
-            </a>
-            <div class="h-px bg-gray-100 my-2 mx-4"></div>
-            <% if(!curruser) { %>
-                <a href="/login"
-                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium text-sm">Log
-                    in</a>
-                <a href="/signup"
-                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-50 rounded-2xl transition-all text-decoration-none font-medium text-sm">Sign
-                    up</a>
-                <% } else { %>
-                    <a href="/logout"
-                        class="flex items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all text-decoration-none font-medium">
-                        <i class="fas fa-sign-out-alt w-5 text-center"></i> Log out
+    <!-- Mobile Overlay Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-50 md:hidden font-sans">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" id="mobile-backdrop"></div>
+
+        <!-- Menu Panel -->
+        <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 translate-x-full"
+            id="mobile-panel">
+            <div class="p-5 flex flex-col h-full">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-8">
+                    <span class="font-bold text-lg">Menu</span>
+                    <button id="mobile-close-btn"
+                        class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+                        <i class="fas fa-times text-gray-500"></i>
+                    </button>
+                </div>
+
+                <!-- Links -->
+                <div class="space-y-1 flex-1">
+                    <a href="/listings"
+                        class="flex items-center gap-4 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors font-medium">
+                        <i class="fas fa-compass w-5 text-gray-400"></i> Explore
                     </a>
-                    <% } %>
+                    <a href="/listings/new"
+                        class="flex items-center gap-4 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors font-medium">
+                        <i class="fas fa-home w-5 text-gray-400"></i> Rent home
+                    </a>
+                    <% if(curruser) { %>
+                        <a href="/bookings"
+                            class="flex items-center gap-4 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors font-medium">
+                            <i class="fas fa-suitcase w-5 text-gray-400"></i> My Trips
+                        </a>
+                        <% } %>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="pt-6 border-t border-gray-100">
+                    <% if(!curruser) { %>
+                        <a href="/login"
+                            class="block w-full text-center py-3 rounded-xl bg-gray-100 text-gray-800 font-bold mb-3 hover:bg-gray-200 transition-colors no-underline">Log
+                            in</a>
+                        <a href="/signup"
+                            class="block w-full text-center py-3 rounded-xl bg-[#FF385C] text-white font-bold hover:bg-[#D41245] transition-colors no-underline">Sign
+                            up</a>
+                        <% } else { %>
+                            <div class="flex items-center gap-3 px-4 mb-6">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
+                                    <%= curruser.username[0].toUpperCase() %>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-sm">
+                                        <%= curruser.username %>
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        <%= curruser.email %>
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="/logout"
+                                class="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors font-medium no-underline">
+                                <i class="fas fa-sign-out-alt"></i> Log out
+                            </a>
+                            <% } %>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        const menuBtn = document.getElementById('user-menu-btn');
-        const dropdown = document.getElementById('user-dropdown');
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        (function () {
+            const menuBtn = document.getElementById('user-menu-btn');
+            const dropdown = document.getElementById('user-dropdown');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileCloseBtn = document.getElementById('mobile-close-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobilePanel = document.getElementById('mobile-panel');
+            const mobileBackdrop = document.getElementById('mobile-backdrop');
 
-        function toggleDropdown() {
-            if (dropdown.classList.contains('hidden')) {
-                dropdown.classList.remove('hidden');
-                setTimeout(() => {
+            function toggleDropdown() {
+                if (dropdown.classList.contains('hidden')) {
+                    dropdown.classList.remove('hidden');
+                    // Trigger reflow
+                    void dropdown.offsetWidth;
                     dropdown.classList.remove('opacity-0', 'scale-95');
                     dropdown.classList.add('opacity-100', 'scale-100');
-                }, 10);
-            } else {
-                dropdown.classList.remove('opacity-100', 'scale-100');
-                dropdown.classList.add('opacity-0', 'scale-95');
-                setTimeout(() => {
-                    dropdown.classList.add('hidden');
-                }, 200);
-            }
-        }
-
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleDropdown();
-        });
-
-        mobileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', () => {
-            if (!dropdown.classList.contains('hidden')) {
-                toggleDropdown();
-            }
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-
-        dropdown.addEventListener('click', (e) => e.stopPropagation());
-        mobileMenu.addEventListener('click', (e) => e.stopPropagation());
-
-        // Search Autocomplete Logic
-        const searchInput = document.getElementById('search-input');
-        const suggestionsBox = document.getElementById('search-suggestions');
-
-        if (searchInput) {
-            let debounceTimeout;
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(debounceTimeout);
-                const q = e.target.value;
-
-                if (q.length < 2) {
-                    suggestionsBox.classList.add('hidden');
-                    return;
+                } else {
+                    dropdown.classList.remove('opacity-100', 'scale-100');
+                    dropdown.classList.add('opacity-0', 'scale-95');
+                    setTimeout(() => {
+                        dropdown.classList.add('hidden');
+                    }, 200);
                 }
+            }
 
-                debounceTimeout = setTimeout(async () => {
-                    try {
-                        const res = await fetch(`/listings/search/suggestions?q=${q}`);
-                        const data = await res.json();
+            function openMobileMenu() {
+                mobileMenu.classList.remove('hidden');
+                // Trigger reflow
+                void mobilePanel.offsetWidth;
+                mobilePanel.classList.remove('translate-x-full');
+            }
 
-                        if (data.length > 0) {
-                            suggestionsBox.innerHTML = data.map(item => `
-                                <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 group border-b border-gray-50 last:border-none" 
-                                     onclick="window.location.href='/listings?search=${encodeURIComponent(item)}'">
-                                    <i class="fas fa-search text-gray-400 group-hover:text-[#FF385C]"></i>
-                                    <span class="text-sm font-medium text-gray-700">${item}</span>
-                                </div>
-                            `).join('');
-                            suggestionsBox.classList.remove('hidden');
-                        } else {
-                            suggestionsBox.classList.add('hidden');
-                        }
-                    } catch (err) {
-                        console.error("Autocomplete error:", err);
-                    }
+            function closeMobileMenu() {
+                mobilePanel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
                 }, 300);
-            });
+            }
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleDropdown();
+                });
+            }
+
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openMobileMenu();
+                });
+            }
+
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
+            if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileMenu);
 
             document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
-                    suggestionsBox.classList.add('hidden');
+                if (!dropdown.classList.contains('hidden') && !menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                    toggleDropdown();
                 }
             });
-        }
+
+            if (dropdown) dropdown.addEventListener('click', (e) => e.stopPropagation());
+
+            // Search Autocomplete Logic
+            const searchInput = document.getElementById('search-input');
+            const suggestionsBox = document.getElementById('search-suggestions');
+
+            if (searchInput) {
+                let debounceTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(debounceTimeout);
+                    const q = e.target.value;
+
+                    if (q.length < 2) {
+                        suggestionsBox.classList.add('hidden');
+                        suggestionsBox.classList.remove('opacity-100', 'scale-100');
+                        return;
+                    }
+
+                    debounceTimeout = setTimeout(async () => {
+                        try {
+                            const res = await fetch(`/listings/search/suggestions?q=${q}`);
+                            const data = await res.json();
+
+                            if (data.length > 0) {
+                                suggestionsBox.innerHTML = data.map(item => `
+                                    <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 group border-b border-gray-50 last:border-none" 
+                                         onclick="window.location.href='/listings?search=${encodeURIComponent(item)}'">
+                                        <i class="fas fa-search text-gray-400 group-hover:text-[#FF385C]"></i>
+                                        <span class="text-sm font-medium text-gray-700">${item}</span>
+                                    </div>
+                                `).join('');
+                                suggestionsBox.classList.remove('hidden');
+                                void suggestionsBox.offsetWidth;
+                                suggestionsBox.classList.add('opacity-100', 'scale-100');
+                            } else {
+                                suggestionsBox.classList.add('hidden');
+                            }
+                        } catch (err) {
+                            console.error("Autocomplete error:", err);
+                        }
+                    }, 300);
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                        suggestionsBox.classList.add('hidden');
+                    }
+                });
+            }
+        })();
     </script>
 </nav>

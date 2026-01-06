@@ -1,13 +1,17 @@
+// Map initialization logic
 const mapElement = document.getElementById('map');
-if (mapElement) {
-    const mapToken = mapElement.getAttribute('data-map-token');
-    let coordinates = JSON.parse(mapElement.getAttribute('data-coordinates'));
+if (mapElement && window.showMapData) {
+    const { mapToken, coordinates: rawCoordinates } = window.showMapData;
+    let coordinates = rawCoordinates;
 
     // Validate coordinates, fallback to Delhi if invalid
     if (!Array.isArray(coordinates) || coordinates.length !== 2 || typeof coordinates[0] !== 'number' || typeof coordinates[1] !== 'number') {
         console.warn("Invalid coordinates detected, falling back to default.");
         coordinates = [77.209, 28.6139];
     }
+
+    // Clear the loading text
+    mapElement.innerHTML = '';
 
     mapboxgl.accessToken = mapToken;
     const map = new mapboxgl.Map({
@@ -16,7 +20,7 @@ if (mapElement) {
         zoom: 15.1, // starting zoom
         pitch: 0, // flat view
         bearing: 0, // facing north
-        style: 'mapbox://styles/mapbox/standard' // style URL
+        style: 'mapbox://styles/mapbox/streets-v12' // fallback to reliable style
     });
 
     // Create a custom DOM element for the marker
@@ -52,6 +56,18 @@ if (mapElement) {
                 map.setConfigProperty('basemap', this.id, this.checked);
             });
         });
+} else {
+    console.error("Map Debug: Initialization failed.");
+    console.log("Map Debug: mapElement:", mapElement);
+    console.log("Map Debug: window.showMapData:", window.showMapData);
+    if (mapElement) {
+        if (!window.showMapData) {
+            mapElement.innerHTML = '<div class="flex items-center justify-center h-full text-red-500 font-bold">Error: Map Data Missing</div>';
+        } else if (typeof mapboxgl === 'undefined') {
+            mapElement.innerHTML = '<div class="flex items-center justify-center h-full text-red-500 font-bold">Error: Mapbox GL JS Not Loaded</div>';
+            console.error("Map Debug: mapboxgl is undefined");
+        }
+    }
 }
 
 

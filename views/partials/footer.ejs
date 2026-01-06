@@ -1,47 +1,23 @@
 <!-- Concise Sticky Footer -->
-<footer class="mt-auto w-full bg-white border-t border-gray-100">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<footer class="mt-auto w-full bg-white border-t border-gray-100 font-sans">
+  <div class="mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-y-4 text-sm">
 
-      <!-- Brand & Copyright -->
-      <div class="flex items-center gap-2 text-sm text-gray-500 order-2 md:order-1">
-        <span class="font-semibold text-gray-700">RentRipple</span>
-        <span>&copy; 2025</span>
+      <!-- Left: Copyright -->
+      <div class="text-gray-500 font-medium">
+        <span>© <%= new Date().getFullYear() %>  RentRipple, Inc.</span>
       </div>
 
-      <!-- Center Links -->
-      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500 order-1 md:order-2">
-        <a href="#" class="hover:text-gray-900 transition-colors text-decoration-none">Privacy</a>
-        <span class="hidden md:inline text-gray-300">·</span>
-        <a href="#" class="hover:text-gray-900 transition-colors text-decoration-none">Terms</a>
-        <span class="hidden md:inline text-gray-300">·</span>
-        <a href="#" class="hover:text-gray-900 transition-colors text-decoration-none">Sitemap</a>
-      </div>
-      <div class="flex items-center gap-2 text-sm text-gray-500">
-        <span class="font-semibold text-gray-700">© 2024 RentRipple, Inc.</span>
-        <span class="hidden md:inline">·</span>
-        <a href="#" class="hover:underline">Privacy</a>
-        <span class="hidden md:inline">·</span>
-        <a href="#" class="hover:underline">Terms</a>
-        <span class="hidden md:inline">·</span>
-        <a href="#" class="hover:underline">Sitemap</a>
-      </div>
-
-      <!-- Social & Currency -->
-      <div class="flex items-center gap-6 font-medium text-sm text-gray-700">
-        <div class="flex items-center gap-1 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-lg transition-colors">
-          <i class="fas fa-globe"></i>
-          <span>English (IN)</span>
-        </div>
-        <div class="flex items-center gap-1 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-lg transition-colors">
-          <span>₹</span>
-          <span>INR</span>
-        </div>
-        <div class="flex items-center gap-4 text-lg">
-          <a href="#" class="hover:text-pink-500 transition-colors"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="hover:text-pink-500 transition-colors"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram"></i></a>
-        </div>
+      <!-- Right: Social -->
+      <div class="flex items-center gap-6">
+        <a href="https://github.com/mayankparashar" target="_blank"
+          class="text-gray-400 hover:text-black transition-colors"><i class="fab fa-github text-lg"></i></a>
+        <a href="#" class="text-gray-400 hover:text-[#1877F2] transition-colors"><i
+            class="fab fa-facebook-f text-lg"></i></a>
+        <a href="#" class="text-gray-400 hover:text-[#1DA1F2] transition-colors"><i
+            class="fab fa-twitter text-lg"></i></a>
+        <a href="#" class="text-gray-400 hover:text-[#E1306C] transition-colors"><i
+            class="fab fa-instagram text-lg"></i></a>
       </div>
 
     </div>

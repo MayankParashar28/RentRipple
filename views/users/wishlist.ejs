@@ -1,58 +1,70 @@
 <% layout("./layouts/boilerplate.ejs") %>
 
-    <div class="max-w-7xl mx-auto px-6 py-10">
-        <h1 class="text-3xl font-extrabold text-[#222222] mb-8">My Wishlist</h1>
+    <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h1 class="text-3xl font-extrabold text-[#222222] mb-8 px-2">My Wishlist</h1>
 
         <% if (listings && listings.length> 0) { %>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <% listings.forEach(listing=> { %>
-                    <a href="/<%= listing._id %>" class="block group">
-                        <div class="border border-transparent rounded-xl hover:shadow-lg transition-all duration-300">
-                            <div class="aspect-square rounded-xl overflow-hidden relative mb-3">
-                                <img src="<%= listing.image.url %>"
-                                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10 px-2">
+                <% listings.forEach((listing, index)=> { %>
+                    <div class="group flex flex-col cursor-pointer h-full relative">
 
-                                <!-- Remove from Wishlist Button -->
-                                <form action="/wishlist/<%= listing._id %>" method="POST"
-                                    class="absolute top-3 right-3 z-10">
-                                    <button type="submit"
-                                        class="bg-white/80 backdrop-blur-sm p-2 rounded-full hover:scale-110 transition-transform shadow-sm text-[#FA2D55]">
-                                        <i class="fas fa-heart text-lg"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="px-1">
-                                <div class="flex justify-between items-start">
-                                    <h3 class="font-bold text-[#222222] text-sm truncate w-full">
-                                        <%= listing.name %>
-                                    </h3>
-                                    <div class="flex items-center gap-1 text-sm font-light">
-                                        <i class="fas fa-star text-xs"></i> <span>New</span>
-                                    </div>
-                                </div>
-                                <p class="text-gray-500 text-sm">
-                                    <%= listing.location %>
-                                </p>
-                                <div class="mt-1 flex items-baseline gap-1">
-                                    <span class="font-bold text-[#222222]">₹<%= listing.price.toLocaleString("en-IN") %>
-                                            </span>
-                                    <span class="text-gray-500 text-sm font-normal">night</span>
-                                </div>
-                            </div>
+                        <!-- Image Container -->
+                        <div class="relative w-full aspect-square overflow-hidden rounded-xl bg-gray-200 mb-3">
+                            <a href="/listings/<%= listing._id %>" class="block w-full h-full">
+                                <img src="<%= listing.image.url %>"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    alt="<%= listing.name %>">
+                            </a>
+
+                            <!-- Remove from Wishlist Button -->
+                            <form action="/wishlist/<%= listing._id %>" method="POST"
+                                class="absolute top-3 right-3 z-10" onclick="event.stopPropagation();">
+                                <button type="submit"
+                                    class="p-0 border-0 bg-transparent cursor-pointer hover:scale-110 active:scale-95 transition-transform">
+                                    <i class="fas fa-heart text-2xl text-[#FF385C]"
+                                        style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));"></i>
+                                </button>
+                            </form>
                         </div>
-                    </a>
+
+                        <!-- Listing Details -->
+                        <a href="/listings/<%= listing._id %>" class="flex flex-col gap-1 no-underline">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-[#222222] truncate flex-1 pr-2 text-[15px]">
+                                    <%= listing.name %>
+                                </h3>
+                                <div class="flex items-center gap-1 text-[14px] text-[#222222]">
+                                    <i class="fas fa-star text-[12px]"></i>
+                                    <span>New</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-500 text-[15px] truncate leading-tight">
+                                <%= listing.location %>
+                            </p>
+                            <div class="flex items-baseline gap-1 mt-1.5">
+                                <span class="font-bold text-[#222222] text-[15px]">₹<%=
+                                        listing.price.toLocaleString("en-IN") %></span>
+                                <span class="text-[#222222] font-normal text-[15px]">night</span>
+                            </div>
+                        </a>
+
+                    </div>
                     <% }) %>
             </div>
             <% } else { %>
-                <div class="text-center py-20">
-                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="far fa-heart text-2xl text-gray-400"></i>
+                <div class="text-center py-20 bg-gray-50 rounded-3xl mx-2 border border-dashed border-gray-200">
+                    <div
+                        class="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="far fa-heart text-2xl text-gray-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-[#222222] mb-2">No saves yet</h3>
-                    <p class="text-gray-500 mb-8">As you search, click the heart icon to save your favorite places.</p>
-                    <a href="/"
-                        class="bg-[#222222] text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors">Start
-                        exploring</a>
+                    <p class="text-gray-500 mb-8 max-w-md mx-auto">As you search, click the heart icon to save your
+                        favorite places.</p>
+                    <a href="/listings"
+                        class="bg-[#222222] text-white px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform inline-block shadow-lg">
+                        Start exploring
+                    </a>
                 </div>
                 <% } %>
     </div>

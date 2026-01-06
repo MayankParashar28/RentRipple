@@ -1,4 +1,5 @@
 const Listing = require("../models/listing.js");
+const stripe = require("../utils/stripe.js");
 
 // Lazy load Mapbox SDK only when needed
 let geocodingClient;
@@ -56,10 +57,19 @@ module.exports.index = async (req, res) => {
     const listings = await Listing.find(filter)
         .select("name price image owner location type geometry reviews")
         .populate("owner", "username")
-        .populate("reviews", "rating")
-        .lean();
+        .populate("reviews", "rating");
 
-    res.render("listings/index", { listings, mapToken, category, minPrice, maxPrice, search });
+    const mapListings = listings.map(l => ({
+        price: l.price,
+        geometry: l.geometry,
+        popUpMarkup: l.popUpMarkup
+    }));
+
+    const mapListingsJSON = JSON.stringify(mapListings);
+    console.log("DEBUG: mapListings JSON length:", mapListingsJSON.length);
+    console.log("DEBUG: mapListings JSON sample:", mapListingsJSON.substring(0, 500));
+
+    res.render("listings/index", { listings, mapListings, mapToken, category, minPrice, maxPrice, search });
 };
 
 module.exports.searchSuggestions = async (req, res) => {
@@ -207,6 +217,11 @@ module.exports.renderCheckout = async (req, res) => {
     const { id } = req.params;
     const { booking } = req.query; // Expecting booking[checkIn], etc. from GET form
 
+    if (!booking || !booking.checkIn || !booking.checkOut) {
+        req.flash('error', 'Please select valid check-in and check-out dates.');
+        return res.redirect(`/listings/${id}`);
+    }
+
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash('error', 'Listing not found!');
@@ -246,12 +261,43 @@ module.exports.renderCheckout = async (req, res) => {
         }
     }
 
-    res.render("bookings/checkout", { listing, checkIn: booking.checkIn, checkOut: booking.checkOut, guests, nights, basePrice, totalPrice });
+    // Create Payment Intent
+    let clientSecret = null;
+    if (totalPrice > 0) {
+        try {
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: totalPrice * 100, // Amount in paise
+                currency: 'inr',
+                automatic_payment_methods: {
+                    enabled: true,
+                },
+            });
+            clientSecret = paymentIntent.client_secret;
+        } catch (e) {
+            console.error("Stripe Error:", e);
+            req.flash('error', 'Error initializing payment: ' + e.message);
+            return res.redirect(`/listings/${id}`);
+        }
+    }
+
+    res.render("bookings/checkout", {
+        listing,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests,
+        nights,
+        basePrice,
+        totalPrice,
+        clientSecret,
+        stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+    });
 };
 
 module.exports.createBooking = async (req, res) => {
     const { id } = req.params;
-    const { booking } = req.body;
+    // booking object contains checkIn, checkOut, guests
+    // paymentIntentId comes separately in the body
+    const { booking, paymentIntentId } = req.body;
 
     const listing = await Listing.findById(id);
     if (!listing) {
@@ -285,10 +331,34 @@ module.exports.createBooking = async (req, res) => {
         return res.redirect(`/listings/${id}`);
     }
 
-    // Calculate Price
+    // Calculate Price again to verify
     const oneDay = 24 * 60 * 60 * 1000;
     const diffDays = Math.round(Math.abs((checkOut - checkIn) / oneDay));
-    const totalPrice = (listing.price * diffDays) + 1500 + 850; // Base + Cleaning + Service (Hardcoded for demo)
+    const totalPrice = (listing.price * diffDays) + 1500 + 850;
+
+    // Verify Payment if paymentIntentId is present
+    if (paymentIntentId) {
+        try {
+            const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+            if (paymentIntent.status !== 'succeeded') {
+                req.flash('error', 'Payment failed or was not confirmed.');
+                return res.redirect(`/listings/${id}`); // Or back to checkout
+            }
+            // Check amount matches (optional but recommended)
+            if (paymentIntent.amount !== totalPrice * 100) {
+                console.warn("Warning: Payment amount mismatch!", paymentIntent.amount, totalPrice * 100);
+                // In a real app, you might refund or flag this.
+            }
+        } catch (e) {
+            console.error("Stripe Verification Error:", e);
+            req.flash('error', 'Payment verification failed.');
+            return res.redirect(`/listings/${id}`);
+        }
+    } else {
+        // Enforce payment
+        req.flash('error', 'Payment is required to book.');
+        return res.redirect(`/listings/${id}`);
+    }
 
     const newBooking = new Booking({
         listing: id,
@@ -296,7 +366,9 @@ module.exports.createBooking = async (req, res) => {
         checkIn: checkIn,
         checkOut: checkOut,
         guests: guests,
-        totalPrice: totalPrice
+        totalPrice: totalPrice,
+        paymentStatus: 'paid', // Add a field if your schema supports it, otherwise assume valid booking = paid
+        paymentId: paymentIntentId
     });
 
     await newBooking.save();

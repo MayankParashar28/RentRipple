@@ -55,9 +55,15 @@ const listingSchema = new mongoose.Schema({
 });
 
 listingSchema.virtual('averageRating').get(function () {
-    if (this.reviews.length === 0) return 0;
+    if (!this.reviews || this.reviews.length === 0) return 0;
     const sum = this.reviews.reduce((acc, review) => acc + (review.rating || 0), 0);
     return (sum / this.reviews.length).toFixed(1);
+});
+
+listingSchema.virtual('popUpMarkup').get(function () {
+    return `
+    <strong><a href="/listings/${this._id}" style="text-decoration: none; color: black;">${this.name}</a></strong>
+    <p>${this.location}</p>`
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

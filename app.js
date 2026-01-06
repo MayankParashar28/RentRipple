@@ -77,7 +77,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something went wrong!');
 });
 
-app.locals.moment = moment;;
+app.locals.moment = moment;
 app.use((req, res, next) => {
     res.locals.curruser = req.user;
     res.locals.success = req.flash("success");
@@ -95,9 +95,11 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const listingRouter = require("./routes/listings.js");
 const reviewRouter = require("./routes/reviews.js");
 const userRouter = require("./routes/users.js");
+const bookingRouter = require("./routes/bookings.js");
 
 // Routes Registration
 app.use("/", userRouter);
+app.use("/bookings", bookingRouter);
 // app.use("/listings", listingRouter); // We will mount specific resource routes carefully or handle index explicitly
 
 // Specific Resource Routes that need to remain under /listings for ID, New, Edit
