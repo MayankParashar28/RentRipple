@@ -1,47 +1,81 @@
-# 🏡 RentRipple
+# RentRipple
 
-A full-stack rental platform inspired by Airbnb that allows users to explore, list, review, and book accommodations globally. Built with responsiveness, interactivity, and scalability in mind.
+RentRipple is a full-stack Airbnb clone that allows users to rent out their homes or book unique accommodations around the world. Built with the MERN stack (MongoDB, Express, Node.js) and enhanced with modern features like interactive maps, image uploads, and a comprehensive user dashboard.
 
+##  Features
 
----
+### Core Functionality
+-   **User Authentication**: Secure login and signup using Passport.js.
+-   **CRUD Operations**: Users can create, read, update, and delete their own listings.
+-   **Reviews**: Users can leave operational reviews and ratings for listings.
+-   **Image Uploads**: Cloud storage support via Cloudinary for listing photos.
 
-## 🚀 Features
+### Advanced Features
+-   **Interactive Map**: Powered by Mapbox GL JS, displaying listing locations with cluster clustering for better visualization.
+-   **Dynamic Booking System**:
+    -   Real-time cost calculation based on selected dates.
+    -   Displays service fee, cleaning fee, and tax breakdown.
+-   **User Dashboard**:
+    -   **My Trips**: View upcoming and past bookings with status tracking.
+    -   **Hosting Dashboard**: Manage your listings and view incoming reservations from other users.
+-   **Search & Filtering**: Categorized listings (e.g., Beachfront, Cabins, Trending) for easy discovery.
 
-### 🧑‍💼 Authentication & User System
-- Secure Login/Signup (Passport.js)
-- Role-based logic (auto-host after uploading listings)
-- Flash messages for real-time feedback
+## 🛠️ Tech Stack
 
-### 🏘️ Listings
-- Full CRUD (Create, Read, Update, Delete)
-- Image upload with Cloudinary
-- Amenities, guest capacity, price, and property type
-- Dynamic average rating display
+-   **Frontend**: EJS (Embedded JavaScript), Tailwind CSS, Bootstrap (legacy), Javascript (ES6+)
+-   **Backend**: Node.js, Express.js
+-   **Database**: MongoDB (Atlas) with Mongoose ODM
+-   **Authentication**: Passport.js (Local Strategy)
+-   **Maps & Geocoding**: Mapbox SDK
+-   **Storage**: Cloudinary
+-   **Deployment**: Vercel (Serverless)
 
-### 🗺️ Maps & Geo
-- Interactive **Mapbox** integration
-- Show markers, **3D buildings**, **polygon overlays**
-- **Route to listing** (driving, walking, cycling)
-- Dynamic coordinates per listing
+## ⚙️ Usage
 
-### ⭐ Reviews
-- Leave star-based reviews with timestamps
-- Only authors can delete their reviews
-- Live rating average for each property
+### Prerequisites
+-   Node.js (v14+)
+-   MongoDB Atlas Account
+-   Cloudinary Account
+-   Mapbox Account
 
-### 🖼️ UI & UX
-- Built using **Tailwind CSS** and **Bootstrap**
-- Typing effect and animated hero section
-- Responsive mobile nav with collapse menu
-- Sticky navbar, image zoom, and modern layout
+### Installation
 
----
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/MayankParashar28/RentRipple.git
+    cd RentRipple
+    ```
 
-## 🧰 Tech Stack
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-| Frontend | Backend | Database | Tools |
-|----------|---------|----------|-------|
-| EJS, Tailwind, Bootstrap | Node.js, Express.js | MongoDB + Mongoose | Cloudinary, Mapbox, Passport.js, Multer, Moment.js |
+3.  **Environment Variables**
+    Create a `.env` file in the root directory and add:
+    ```env
+    CLOUD_NAME=your_cloudinary_name
+    CLOUD_API_KEY=your_cloudinary_key
+    CLOUD_API_SECRET=your_cloudinary_secret
+    MAP_TOKEN=your_mapbox_token
+    MONGO_URL=your_mongodb_atlas_url
+    SECRET=your_session_secret
+    ```
 
----
+4.  **Run Locally**
+    ```bash
+    node app.js
+    ```
+    Visit `http://localhost:3000` in your browser.
 
+## 🚀 Deployment (Vercel)
+
+This project is configured for Vercel deployment.
+
+1.  Push your code to GitHub.
+2.  Import the project in Vercel.
+3.  Add the **Environment Variables** from step 3 in the Vercel Project Settings.
+4.  Deploy!
+
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).
