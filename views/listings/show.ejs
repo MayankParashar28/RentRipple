@@ -242,9 +242,9 @@
               <div class="flex justify-between">
                 <span class="underline">₹<span id="base-price">
                     <%= listing.price.toLocaleString("en-IN") %>
-                  </span> x <span id="total-nights">5</span> nights</span>
+                  </span> x <span id="total-nights">0</span> nights</span>
                 <span>₹<span id="base-cost">
-                    <%= (listing.price * 5).toLocaleString("en-IN") %>
+                    0
                   </span></span>
               </div>
               <div class="flex justify-between">
@@ -252,8 +252,8 @@
                 <span>₹2,500</span>
               </div>
               <div class="flex justify-between">
-                <span class="underline">Airbnb service fee</span>
-                <span>₹<span id="service-fee">8,450</span></span>
+                <span class="underline">RentRipple service fee</span>
+                <span>₹<span id="service-fee">0</span></span>
               </div>
             </div>
 
@@ -262,7 +262,7 @@
             <div class="flex justify-between font-bold text-lg text-[#222222]">
               <span>Total</span>
               <span>₹<span id="grand-total">
-                  <%= (listing.price * 5 + 2500 + 8450).toLocaleString("en-IN") %>
+                  0
                 </span></span>
             </div>
 
@@ -412,9 +412,9 @@
   <!-- Scripts for Booking -->
   <script>
     window.listingData = {
-      price: <% - listing.price %>,
+      price: <%- JSON.stringify(listing.price || 0) %>,
       serviceFee: 8450, // Default or calculated
       cleaningFee: 2500
     };
   </script>
-  <script src="/js/booking.js"></script>
+  <script src="/js/booking.js?v=<%= Date.now() %>"></script>

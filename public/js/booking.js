@@ -6,11 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceFeeDisplay = document.getElementById('service-fee');
     const grandTotalDisplay = document.getElementById('grand-total');
 
-    if (!checkinInput || !checkoutInput || !window.listingData) return;
+    if (!checkinInput || !checkoutInput || !window.listingData) {
+        console.error("Booking Debug: Missing elements or data", {
+            checkin: !!checkinInput,
+            checkout: !!checkoutInput,
+            data: window.listingData
+        });
+        return;
+    }
+    console.log("Booking Debug: Elements found, data:", window.listingData);
 
     const { price, cleaningFee } = window.listingData;
 
     function calculateCost() {
+        console.log("Calculating cost...");
         const checkinDate = new Date(checkinInput.value);
         const checkoutDate = new Date(checkoutInput.value);
 

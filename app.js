@@ -5,30 +5,21 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
-const Listing = require("./models/listing")
-const Review = require('./models/review');
-const Experience = require('./models/experience');
 const methodOverride = require('method-override');
-const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-const multer = require('multer')
+const multer = require('multer');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-const { isLoggedIn, savedRedirectUrl, isOwner, isReviewAuthor } = require('./middleware/index.js');
 const engine = require('ejs-mate');
-const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const mapToken = process.env.MAP_TOKEN;
-const geocodingClient = mbxGeoCoding({ accessToken: mapToken })
 const moment = require('moment');
-
+const mapToken = process.env.MAP_TOKEN;
 
 const port = 3000;
 
-const { cloudinary, storage } = require('./config/cloudConfig.js');
-const { access } = require('fs');
+const { storage } = require('./config/cloudConfig.js');
 const upload = multer({ storage });
 
 const dbUrl = process.env.MONGO_URL;
@@ -44,8 +35,6 @@ app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(flash());
 app.use(express.json());
@@ -123,7 +112,11 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 
 
-// Start server
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-});
+// Start server if not running in serverless environment (Vercel)
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`App listening on port ${port}`);
+    });
+}
+
+module.exports = app;

@@ -45,15 +45,19 @@ const Listing = require("../models/listing.js");
 const Booking = require("../models/booking.js");
 
 module.exports.renderDashboard = async (req, res) => {
-    const listings = await Listing.find({ owner: req.user._id });
+    // 1. Fetch Listings and My Trips in parallel
+    const [listings, myTrips] = await Promise.all([
+        Listing.find({ owner: req.user._id }),
+        Booking.find({ booker: req.user._id }).populate('listing').sort({ createdAt: -1 })
+    ]);
 
-    // Find bookings for my listings (Incoming)
+    // 2. Fetch Incoming Bookings (depends on listings)
     const incomingBookings = await Booking.find({ listing: { $in: listings.map(l => l._id) } })
         .populate('listing')
         .populate('booker')
         .sort({ createdAt: -1 });
 
-    res.render("users/dashboard", { listings, incomingBookings });
+    res.render("users/dashboard", { listings, incomingBookings, myTrips });
 };
 
 module.exports.toggleWishlist = async (req, res) => {

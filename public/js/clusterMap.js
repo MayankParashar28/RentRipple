@@ -1,11 +1,9 @@
-(() => {
-    const mapToken = window.mapData ? window.mapData.mapToken : null;
-    const listings = window.mapData ? window.mapData.listings : [];
-
+window.initMap = function (mapToken, listings) {
     if (!mapToken) {
-        console.error("Map token is missing in window.mapData");
+        console.error("Map Token provided to initMap is missing or empty.");
         return;
     }
+    console.log("initMap called with token present.");
 
     mapboxgl.accessToken = mapToken;
     const map = new mapboxgl.Map({
@@ -13,22 +11,24 @@
         style: 'mapbox://styles/mapbox/satellite-streets-v12',
         center: [77.209, 28.6139],
         zoom: 1.5,
-        projection: 'globe' // Display the map as a globe
+        projection: 'mercator'
     });
 
-    // Expose map to window so it can be resized
-    window.map = map;
+    map.on('load', () => { console.log("Map loaded successfully"); });
+    map.on('error', (e) => { console.error("Map error:", e); });
 
-    // Add zoom and rotation controls to the map.
+    // Expose map to window so it can be resized (renamed to listingMap to avoid DOM ID conflict)
+    window.listingMap = map;
+
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on('style.load', () => {
         map.setFog({
-            'color': 'rgb(186, 210, 235)', // Lower atmosphere
-            'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
-            'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
-            'space-color': 'rgb(11, 11, 25)', // Background color
-            'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
+            'color': 'rgb(186, 210, 235)',
+            'high-color': 'rgb(36, 92, 223)',
+            'horizon-blend': 0.02,
+            'space-color': 'rgb(11, 11, 25)',
+            'star-intensity': 0.6
         });
     });
 
@@ -46,15 +46,12 @@
             }))
         };
 
-        // Add a new source from our GeoJSON data and
-        // set the 'cluster' option to true. GL-JS will
-        // add the point_count property to your source data.
         map.addSource('listings', {
             type: 'geojson',
             data: listingsGeoJSON,
             cluster: true,
-            clusterMaxZoom: 14, // Max zoom to cluster points on
-            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+            clusterMaxZoom: 14,
+            clusterRadius: 50
         });
 
         map.addLayer({
@@ -63,11 +60,6 @@
             source: 'listings',
             filter: ['has', 'point_count'],
             paint: {
-                // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-                // with three steps to implement three types of circles:
-                //   * Blue, 20px circles when point count is less than 100
-                //   * Yellow, 30px circles when point count is between 100 and 750
-                //   * Pink, 40px circles when point count is greater than or equal to 750
                 'circle-color': [
                     'step',
                     ['get', 'point_count'],
@@ -107,26 +99,25 @@
             source: 'listings',
             filter: ['!', ['has', 'point_count']],
             layout: {
-                'icon-image': 'monument-15', // Landmark icon
-                'icon-size': 2, // Bigger icon
+                'icon-image': 'monument-15',
+                'icon-size': 2,
                 'icon-allow-overlap': true,
                 'text-field': '{formattedPrice}',
                 'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-                'text-offset': [0, 1.2], // Push text further down
+                'text-offset': [0, 1.2],
                 'text-anchor': 'top',
-                'text-size': 14 // Bigger text
+                'text-size': 14
             },
             paint: {
                 'text-color': '#ffffff',
                 'text-halo-color': '#000000',
                 'text-halo-width': 1,
-                'icon-color': '#ff385c', // Airbnb Pink
+                'icon-color': '#ff385c',
                 'icon-halo-color': '#ffffff',
                 'icon-halo-width': 1
             }
         });
 
-        // inspect a cluster on click
         map.on('click', 'clusters', (e) => {
             const features = map.queryRenderedFeatures(e.point, {
                 layers: ['clusters']
@@ -145,16 +136,10 @@
             );
         });
 
-        // When a click event occurs on a feature in
-        // the unclustered-point layer, open a popup at
-        // the location of the feature, with description HTML from its properties.
         map.on('click', 'unclustered-point', (e) => {
             const { popUpMarkup } = e.features[0].properties;
             const coordinates = e.features[0].geometry.coordinates.slice();
 
-            // Ensure that if the map is zoomed out such that
-            // multiple copies of the feature are visible, the
-            // popup appears over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
@@ -178,4 +163,4 @@
             map.getCanvas().style.cursor = '';
         });
     });
-})();
+};
