@@ -20,7 +20,7 @@ RentRipple is a full-stack Airbnb clone that allows users to rent out their home
     -   **Hosting Dashboard**: Manage your listings and view incoming reservations from other users.
 -   **Search & Filtering**: Categorized listings (e.g., Beachfront, Cabins, Trending) for easy discovery.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 -   **Frontend**: EJS (Embedded JavaScript), Tailwind CSS, Bootstrap (legacy), Javascript (ES6+)
 -   **Backend**: Node.js, Express.js
@@ -30,7 +30,7 @@ RentRipple is a full-stack Airbnb clone that allows users to rent out their home
 -   **Storage**: Cloudinary
 -   **Deployment**: Vercel (Serverless)
 
-## ⚙️ Usage
+##  Usage
 
 ### Prerequisites
 -   Node.js (v14+)
@@ -68,7 +68,7 @@ RentRipple is a full-stack Airbnb clone that allows users to rent out their home
     ```
     Visit `http://localhost:3000` in your browser.
 
-## 🚀 Deployment (Vercel)
+##  Deployment (Vercel)
 
 This project is configured for Vercel deployment.
 
@@ -77,5 +77,5 @@ This project is configured for Vercel deployment.
 3.  Add the **Environment Variables** from step 3 in the Vercel Project Settings.
 4.  Deploy!
 
-## 📄 License
+##  License
 This project is open source and available under the [MIT License](LICENSE).
